@@ -29,6 +29,14 @@ const loginPageStyle = (theme) => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
+  alignVertically: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+  },
+  spinner: {
+    marginTop: theme.spacing(5),
+  },
 });
 
 export default loginPageStyle;
