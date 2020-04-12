@@ -126,28 +126,4 @@ function Login(props) {
   );
 }
 
-// Login.propTypes = {
-//   login: PropTypes.func.isRequired,
-//   security: PropTypes.object.isRequired,
-//   errors: PropTypes.object.isRequired
-// };
-
-// const mapStateToProps = state => {
-//   return {
-//     security: state.security,
-//     errors: state.errors
-//   };
-// };
-
-// const mapDispatchToProps = dispatch => {
-//   return {
-//     login: loginRequest => dispatch(login(loginRequest))
-//   };
-// };
-
-// export default connect(
-//   mapStateToProps,
-//   mapDispatchToProps
-// )(Login);
-
 export default Login;
