@@ -14,7 +14,6 @@ export const authStart = () => {
 export const authSuccess = (token, userId) => {
   return {
     type: actionTypes.AUTH_SUCCESS,
-    idToken: token,
     userId: userId,
   };
 };
@@ -60,6 +59,7 @@ export const login = (username, password) => {
         const expirationDate = new Date(
           new Date().getTime() + Constants.EXPIRES_IN
         );
+
         localStorage.setItem("token", response.data.access_token);
         localStorage.setItem("expirationDate", expirationDate);
 
@@ -73,7 +73,6 @@ export const login = (username, password) => {
         dispatch(checkAuthTimeout(Constants.EXPIRES_IN));
       })
       .catch((err) => {
-        console.log(err);
         if (err.response === undefined) {
           dispatch(authFail("Unable to communicate with the server."));
         } else {
@@ -98,12 +97,14 @@ export const authCheckState = () => {
       dispatch(logout());
     } else {
       const expirationDate = new Date(localStorage.getItem("expirationDate"));
+
       if (expirationDate <= new Date()) {
         dispatch(logout());
       } else {
         const userId = localStorage.getItem("userId");
         setJWTToken(token);
         dispatch(authSuccess(userId));
+
         dispatch(
           checkAuthTimeout(
             (expirationDate.getTime() - new Date().getTime()) / 1000
