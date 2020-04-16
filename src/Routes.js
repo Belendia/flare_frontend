@@ -8,6 +8,7 @@ import {
   Dashboard as DashboardView,
   SignIn as SignInView,
   NotFound as NotFoundView,
+  LanguageList as LanguageView,
 } from "./views";
 
 const Routes = () => {
@@ -19,6 +20,12 @@ const Routes = () => {
         exact
         layout={MainLayout}
         path="/dashboard"
+      />
+      <SecuredRouteWithLayout
+        component={LanguageView}
+        exact
+        layout={MainLayout}
+        path="/language"
       />
       <RouteWithLayout
         component={SignInView}

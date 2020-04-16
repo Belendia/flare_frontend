@@ -28,7 +28,7 @@ function App() {
   useEffect(() => {
     // used to restore session when user refresh the page without logging out.
     dispatch(onTryAutoSignIn());
-  }, []);
+  }, [dispatch]);
 
   return (
     <ThemeProvider theme={theme}>
