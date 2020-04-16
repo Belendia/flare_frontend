@@ -4,6 +4,7 @@ import * as actionTypes from "./actionTypes";
 import axios from "../../utils/axiosFlare";
 import * as Constants from "../../utils/constants";
 import setJWTToken from "../../utils/setJWTToken";
+import { fetchMenu } from "./menuActions";
 
 export const authStart = () => {
   return {
@@ -71,6 +72,7 @@ export const login = (username, password) => {
 
         dispatch(authSuccess(userId));
         dispatch(checkAuthTimeout(Constants.EXPIRES_IN));
+        dispatch(fetchMenu());
       })
       .catch((err) => {
         if (err.response === undefined) {
@@ -82,12 +84,12 @@ export const login = (username, password) => {
   };
 };
 
-export const setAuthRedirectPath = (path) => {
-  return {
-    type: actionTypes.SET_AUTH_REDIRECT_PATH,
-    path: path,
-  };
-};
+// export const setAuthRedirectPath = (path) => {
+//   return {
+//     type: actionTypes.SET_AUTH_REDIRECT_PATH,
+//     path: path,
+//   };
+// };
 
 // this utility action creator is used to restore session when a user refresh the page without logging out.
 export const authCheckState = () => {
