@@ -62,7 +62,7 @@ const LanguagesTable = (props) => {
               </TableHead>
               <TableBody>
                 {languages.map((lang) => (
-                  <LanguageRow language={lang} />
+                  <LanguageRow language={lang} key={lang.id} />
                 ))}
               </TableBody>
             </Table>
