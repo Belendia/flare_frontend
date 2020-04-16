@@ -10,7 +10,7 @@ import PeopleIcon from "@material-ui/icons/People";
 import LanguageIcon from "@material-ui/icons/Language";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { useSelector } from "react-redux";
-
+import Alert from "@material-ui/lab/Alert";
 import { Profile, SidebarNav } from "./components";
 
 const useStyles = makeStyles((theme) => ({
@@ -102,6 +102,7 @@ const Sidebar = (props) => {
         ) : (
           <SidebarNav className={classes.nav} pages={pages} />
         )}
+        {error && <Alert severity="error">{error}</Alert>}
       </div>
     </Drawer>
   );
