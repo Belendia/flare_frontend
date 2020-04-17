@@ -71,6 +71,7 @@ export const login = (username, password) => {
         localStorage.setItem("userId", userId);
 
         dispatch(authSuccess(userId));
+        dispatch(fetchMenu());
         dispatch(checkAuthTimeout(Constants.EXPIRES_IN));
       })
       .catch((err) => {

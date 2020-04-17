@@ -80,7 +80,9 @@ const Sidebar = (props) => {
   useEffect(() => {
     pagesToInclude.forEach((menu, i) => {
       if (menus !== undefined && menus.includes(menu.title)) {
-        setPages([...pages, menu]);
+        if (pages.some((p) => p.title === menu.title) === false) {
+          setPages([...pages, menu]);
+        }
       }
     });
   }, [menus]);
