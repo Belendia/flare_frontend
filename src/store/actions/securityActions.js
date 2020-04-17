@@ -72,7 +72,6 @@ export const login = (username, password) => {
 
         dispatch(authSuccess(userId));
         dispatch(checkAuthTimeout(Constants.EXPIRES_IN));
-        dispatch(fetchMenu());
       })
       .catch((err) => {
         if (err.response === undefined) {
@@ -96,17 +95,19 @@ export const authCheckState = () => {
   return (dispatch) => {
     const token = localStorage.getItem("token");
     if (!token) {
+      console.log("Token not set - Logout");
       dispatch(logout());
     } else {
       const expirationDate = new Date(localStorage.getItem("expirationDate"));
 
       if (expirationDate <= new Date()) {
+        console.log("Expiration date is lessthan current date - Logout");
         dispatch(logout());
       } else {
         const userId = localStorage.getItem("userId");
         setJWTToken(token);
         dispatch(authSuccess(userId));
-
+        dispatch(fetchMenu());
         dispatch(
           checkAuthTimeout(
             (expirationDate.getTime() - new Date().getTime()) / 1000

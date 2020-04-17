@@ -61,7 +61,6 @@ const pagesToInclude = [
 
 const Sidebar = (props) => {
   const { open, variant, onClose, className, ...rest } = props;
-
   const classes = useStyles();
 
   const { error, loading, menus } = useSelector((state) => ({
@@ -84,7 +83,7 @@ const Sidebar = (props) => {
         setPages([...pages, menu]);
       }
     });
-  }, [loading, menus]);
+  }, [menus]);
 
   return (
     <Drawer
