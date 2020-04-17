@@ -1,3 +1,3 @@
 export { login, logout, authCheckState } from "./securityActions";
-export { fetchLanguages } from "./languageActions";
+export { fetchLanguages, fetchLanguagePermissions } from "./languageActions";
 export { fetchMenu } from "./menuActions";

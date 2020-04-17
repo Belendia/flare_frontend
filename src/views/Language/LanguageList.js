@@ -3,7 +3,7 @@ import { makeStyles } from "@material-ui/styles";
 import { useDispatch, useSelector } from "react-redux";
 
 import { LanguagesToolbar, LanguagesTable } from "./components";
-import { fetchLanguages } from "../../store/actions";
+import { fetchLanguagePermissions } from "../../store/actions";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -16,19 +16,21 @@ const useStyles = makeStyles((theme) => ({
 
 const LanguageList = () => {
   const classes = useStyles();
+  const dispatch = useDispatch();
 
   //redux
-  const { error, loading, languages } = useSelector((state) => ({
-    error: state.language.error,
-    loading: state.language.loading,
-    languages: state.language.data,
-  }));
+  const { error, loadingLanguages, languages, permissions } = useSelector(
+    (state) => ({
+      error: state.language.error,
+      loadingLanguages: state.language.loadingLanguages,
+      languages: state.language.data,
+      permissions: state.language.permissions,
+    })
+  );
 
   useEffect(() => {
-    dispatch(fetchLanguages());
-  }, []);
-
-  const dispatch = useDispatch();
+    dispatch(fetchLanguagePermissions());
+  }, [dispatch]);
 
   return (
     <div className={classes.root}>

@@ -2,14 +2,16 @@ import * as actionTypes from "../actions/actionTypes";
 
 const initialState = {
   data: [],
-  loading: false,
+  permissions: [],
+  loadingLanguages: false,
+  loadingPermissions: false,
   error: null,
 };
 
 const fetchLanguagesStart = (state, action) => {
   return {
     ...state,
-    loading: true,
+    loadingLanguages: true,
   };
 };
 
@@ -17,7 +19,7 @@ const fetchLanguagesSuccess = (state, action) => {
   return {
     ...state,
     data: action.data,
-    loading: false,
+    loadingLanguages: false,
     error: null,
   };
 };
@@ -25,7 +27,31 @@ const fetchLanguagesSuccess = (state, action) => {
 const fetchLanguagesFail = (state, action) => {
   return {
     ...state,
-    loading: false,
+    loadingLanguages: false,
+    error: action.error,
+  };
+};
+
+const fetchPermissionsStart = (state, action) => {
+  return {
+    ...state,
+    loadingPermissions: true,
+  };
+};
+
+const fetchPermissionsSuccess = (state, action) => {
+  return {
+    ...state,
+    permissions: action.permissions,
+    loadingPermissions: false,
+    error: null,
+  };
+};
+
+const fetchPermissionsFail = (state, action) => {
+  return {
+    ...state,
+    loadingPermissions: false,
     error: action.error,
   };
 };
@@ -38,6 +64,12 @@ const reducer = (state = initialState, action) => {
       return fetchLanguagesSuccess(state, action);
     case actionTypes.FETCH_LANGUAGES_FAIL:
       return fetchLanguagesFail(state, action);
+    case actionTypes.FETCH_LANGUAGE_PERMISSIONS_START:
+      return fetchPermissionsStart(state, action);
+    case actionTypes.FETCH_LANGUAGE_PERMISSIONS_SUCCESS:
+      return fetchPermissionsSuccess(state, action);
+    case actionTypes.FETCH_LANGUAGE_PERMISSIONS_FAIL:
+      return fetchPermissionsFail(state, action);
     default:
       return state;
   }

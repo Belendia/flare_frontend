@@ -46,3 +46,47 @@ export const fetchLanguages = () => {
       });
   };
 };
+
+export const fetchPermissionsSuccess = (permissions) => {
+  return {
+    type: actionTypes.FETCH_LANGUAGE_PERMISSIONS_SUCCESS,
+    permissions: permissions,
+  };
+};
+
+export const fetchPermissionsFail = (error) => {
+  return {
+    type: actionTypes.FETCH_LANGUAGE_PERMISSIONS_FAIL,
+    error: error,
+  };
+};
+
+export const fetchPermissionsStart = () => {
+  return {
+    type: actionTypes.FETCH_LANGUAGE_PERMISSIONS_START,
+  };
+};
+
+export const fetchLanguagePermissions = () => {
+  return (dispatch) => {
+    dispatch(fetchPermissionsStart());
+
+    axios
+      .get("/languages/_info?q=(keys:!(permissions))")
+      .then((res) => {
+        const permissions = [];
+
+        res.data.permissions.forEach((p, index) => permissions.push(p));
+
+        dispatch(fetchPermissionsSuccess(permissions));
+        dispatch(fetchLanguages());
+      })
+      .catch((err) => {
+        if ((err.status = 401)) {
+          dispatch(logout());
+        } else {
+          dispatch(fetchPermissionsFail(err));
+        }
+      });
+  };
+};
