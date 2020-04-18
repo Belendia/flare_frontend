@@ -1,6 +1,5 @@
 import * as actionTypes from "./actionTypes";
 import axios from "../../utils/axiosFlare";
-import { logout } from "./securityActions";
 
 export const fetchMenuSuccess = (menus) => {
   return {
@@ -40,13 +39,7 @@ export const fetchMenu = () => {
         dispatch(fetchMenuSuccess(menus));
       })
       .catch((err) => {
-        console.log(err);
-        console.log("Menu logout");
-        if ((err.status = 401)) {
-          dispatch(logout());
-        } else {
-          dispatch(fetchMenuFail(err));
-        }
+        dispatch(fetchMenuFail(err.response.data.message));
       });
   };
 };
