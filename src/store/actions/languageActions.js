@@ -1,6 +1,5 @@
 import * as actionTypes from "./actionTypes";
 import axios from "../../utils/axiosFlare";
-import { logout } from "./securityActions";
 
 export const fetchLanguagesSuccess = (languages) => {
   return {
@@ -38,11 +37,7 @@ export const fetchLanguages = () => {
         dispatch(fetchLanguagesSuccess(languages));
       })
       .catch((err) => {
-        if ((err.status = 401)) {
-          dispatch(logout());
-        } else {
-          dispatch(fetchLanguagesFail(err));
-        }
+        dispatch(fetchLanguagesFail(err.response.data.message));
       });
   };
 };
@@ -77,16 +72,19 @@ export const fetchLanguagePermissions = () => {
         const permissions = [];
 
         res.data.permissions.forEach((p, index) => permissions.push(p));
-
         dispatch(fetchPermissionsSuccess(permissions));
-        dispatch(fetchLanguages());
+        if (permissions.includes("can_get")) {
+          dispatch(fetchLanguages());
+        } else {
+          dispatch(
+            fetchPermissionsFail(
+              "You don't have permission to access this page."
+            )
+          );
+        }
       })
       .catch((err) => {
-        if ((err.status = 401)) {
-          dispatch(logout());
-        } else {
-          dispatch(fetchPermissionsFail(err));
-        }
+        dispatch(fetchPermissionsFail(err.response.data.message));
       });
   };
 };

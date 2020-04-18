@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const LanguagesToolbar = (props) => {
-  const { className, ...rest } = props;
+  const { className, addpermission, ...rest } = props;
 
   const classes = useStyles();
 
@@ -38,9 +38,11 @@ const LanguagesToolbar = (props) => {
       <div className={classes.row}>
         <span className={classes.spacer} />
         <Button className={classes.exportButton}>Export</Button>
-        <Button color="primary" variant="contained">
-          Add language
-        </Button>
+        {addpermission && (
+          <Button color="primary" variant="contained">
+            Add language
+          </Button>
+        )}
       </div>
       <div className={classes.row}>
         <SearchInput
@@ -54,6 +56,7 @@ const LanguagesToolbar = (props) => {
 
 LanguagesToolbar.propTypes = {
   className: PropTypes.string,
+  addpermission: PropTypes.bool,
 };
 
 export default LanguagesToolbar;
