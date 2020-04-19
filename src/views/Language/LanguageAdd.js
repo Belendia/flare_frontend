@@ -53,11 +53,12 @@ const LanguageAdd = (props) => {
         code: "",
       }}
       validationSchema={validationSchema}
-      onSubmit={(data, { setSubmitting }) => {
+      onSubmit={(data, { setSubmitting, setErrors }) => {
         setSubmitting(true);
+
         dispatch(
           addLanguage(data, history, (err) => {
-            console.log(err);
+            setErrors(err);
             setSubmitting(false);
           })
         );

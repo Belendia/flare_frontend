@@ -101,7 +101,11 @@ export const addLanguage = (lang, history, errorCallback) => {
         history.push("/language");
       })
       .catch((err) => {
-        errorCallback(err.message);
+        if (err.response === undefined) {
+          errorCallback(err.message);
+        } else {
+          errorCallback(err.response.data.message);
+        }
       });
   };
 };
