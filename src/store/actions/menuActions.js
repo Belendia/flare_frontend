@@ -39,7 +39,11 @@ export const fetchMenu = () => {
         dispatch(fetchMenuSuccess(menus));
       })
       .catch((err) => {
-        dispatch(fetchMenuFail(err.response.data.message));
+        if (err.response === undefined) {
+          dispatch(fetchMenuFail(err.message));
+        } else {
+          dispatch(fetchMenuFail(err.response.data.message));
+        }
       });
   };
 };
