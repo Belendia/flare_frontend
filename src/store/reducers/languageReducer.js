@@ -8,9 +8,10 @@ const initialState = {
   error: null,
 };
 
-const fetchLanguagesStart = (state, action) => {
+const fetchLanguagesStart = (state) => {
   return {
     ...state,
+    error: null,
     loadingLanguages: true,
   };
 };
@@ -32,9 +33,10 @@ const fetchLanguagesFail = (state, action) => {
   };
 };
 
-const fetchPermissionsStart = (state, action) => {
+const fetchPermissionsStart = (state) => {
   return {
     ...state,
+    error: null,
     loadingPermissions: true,
   };
 };
@@ -59,7 +61,7 @@ const fetchPermissionsFail = (state, action) => {
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.FETCH_LANGUAGES_START:
-      return fetchLanguagesStart(state, action);
+      return fetchLanguagesStart(state);
     case actionTypes.FETCH_LANGUAGES_SUCCESS:
       return fetchLanguagesSuccess(state, action);
     case actionTypes.FETCH_LANGUAGES_FAIL:
@@ -70,6 +72,7 @@ const reducer = (state = initialState, action) => {
       return fetchPermissionsSuccess(state, action);
     case actionTypes.FETCH_LANGUAGE_PERMISSIONS_FAIL:
       return fetchPermissionsFail(state, action);
+
     default:
       return state;
   }

@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import clsx from "clsx";
 import { makeStyles } from "@material-ui/styles";
 import { Button } from "@material-ui/core";
+import { useHistory } from "react-router-dom";
 
 import { SearchInput } from "../../../../components";
 
@@ -32,6 +33,11 @@ const LanguagesToolbar = (props) => {
   const { className, addpermission, ...rest } = props;
 
   const classes = useStyles();
+  let history = useHistory();
+
+  const handleClick = () => {
+    history.push("/language/add");
+  };
 
   return (
     <div {...rest} className={clsx(classes.root, className)}>
@@ -39,7 +45,7 @@ const LanguagesToolbar = (props) => {
         <span className={classes.spacer} />
         <Button className={classes.exportButton}>Export</Button>
         {addpermission && (
-          <Button color="primary" variant="contained">
+          <Button color="primary" variant="contained" onClick={handleClick}>
             Add language
           </Button>
         )}

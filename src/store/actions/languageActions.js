@@ -37,7 +37,11 @@ export const fetchLanguages = () => {
         dispatch(fetchLanguagesSuccess(languages));
       })
       .catch((err) => {
-        dispatch(fetchLanguagesFail(err.response.data.message));
+        if (err.response === undefined) {
+          dispatch(fetchLanguagesFail(err.message));
+        } else {
+          dispatch(fetchLanguagesFail(err.response.data.message));
+        }
       });
   };
 };
@@ -84,7 +88,20 @@ export const fetchLanguagePermissions = () => {
         }
       })
       .catch((err) => {
-        dispatch(fetchPermissionsFail(err.response.data.message));
+        dispatch(fetchPermissionsFail(err.message));
+      });
+  };
+};
+
+export const addLanguage = (lang, history, errorCallback) => {
+  return (dispatch) => {
+    axios
+      .post("/languages/", lang)
+      .then((res) => {
+        history.push("/language");
+      })
+      .catch((err) => {
+        errorCallback(err.message);
       });
   };
 };
