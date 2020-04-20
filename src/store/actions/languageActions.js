@@ -93,11 +93,24 @@ export const fetchLanguagePermissions = () => {
   };
 };
 
+export const saveLanguageSuccess = () => {
+  return {
+    type: actionTypes.SAVE_LANGUAGE_SUCCESS,
+  };
+};
+
+export const resetSaveLanguageSuccess = () => {
+  return {
+    type: actionTypes.RESET_SAVE_LANGUAGE_SUCCESS,
+  };
+};
+
 export const addLanguage = (lang, history, errorCallback) => {
   return (dispatch) => {
     axios
       .post("/languages/", lang)
       .then((res) => {
+        dispatch(saveLanguageSuccess());
         history.push("/language");
       })
       .catch((err) => {

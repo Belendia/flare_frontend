@@ -5,8 +5,12 @@ import Alert from "@material-ui/lab/Alert";
 import AlertTitle from "@material-ui/lab/AlertTitle";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import Box from "@material-ui/core/Box";
+import Snackbar from "@material-ui/core/Snackbar";
 import { LanguagesToolbar, LanguagesTable } from "./components";
-import { fetchLanguagePermissions } from "../../store/actions";
+import {
+  fetchLanguagePermissions,
+  resetSaveLanguageSuccess,
+} from "../../store/actions";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -28,13 +32,23 @@ const LanguageList = () => {
     languages,
     loadingPermissions,
     permissions,
+    saveSuccess,
   } = useSelector((state) => ({
     error: state.language.error,
     loadingLanguages: state.language.loadingLanguages,
     languages: state.language.data,
     loadingPermissions: state.language.loadingPermissions,
     permissions: state.language.permissions,
+    saveSuccess: state.language.saveSuccess,
   }));
+
+  const handleClose = (event, reason) => {
+    // if (reason === "clickaway") {
+    //   return;
+    // }
+
+    dispatch(resetSaveLanguageSuccess());
+  };
 
   useEffect(() => {
     dispatch(fetchLanguagePermissions());
@@ -90,7 +104,20 @@ const LanguageList = () => {
       </Box>
     );
   }
-  return <div className={classes.root}>{content}</div>;
+  return (
+    <div className={classes.root}>
+      {content}
+      <Snackbar
+        open={saveSuccess}
+        autoHideDuration={5000}
+        onClose={handleClose}
+      >
+        <Alert onClose={handleClose} severity="success">
+          Success
+        </Alert>
+      </Snackbar>
+    </div>
+  );
 };
 
 export default LanguageList;

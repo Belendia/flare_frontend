@@ -5,6 +5,7 @@ const initialState = {
   permissions: [],
   loadingLanguages: false,
   loadingPermissions: false,
+  saveSuccess: false,
   error: null,
 };
 
@@ -58,6 +59,20 @@ const fetchPermissionsFail = (state, action) => {
   };
 };
 
+const saveLanguageSuccess = (state) => {
+  return {
+    ...state,
+    saveSuccess: true,
+  };
+};
+
+const resetSaveLanguageSuccess = (state, action) => {
+  return {
+    ...state,
+    saveSuccess: false,
+  };
+};
+
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.FETCH_LANGUAGES_START:
@@ -72,6 +87,10 @@ const reducer = (state = initialState, action) => {
       return fetchPermissionsSuccess(state, action);
     case actionTypes.FETCH_LANGUAGE_PERMISSIONS_FAIL:
       return fetchPermissionsFail(state, action);
+    case actionTypes.SAVE_LANGUAGE_SUCCESS:
+      return saveLanguageSuccess(state);
+    case actionTypes.RESET_SAVE_LANGUAGE_SUCCESS:
+      return resetSaveLanguageSuccess(state);
 
     default:
       return state;
