@@ -10,6 +10,7 @@ import {
   NotFound as NotFoundView,
   LanguageList as LanguageListView,
   LanguageAdd as LanguageAddView,
+  LanguageEdit as LanguageEditView,
 } from "./views";
 
 const Routes = () => {
@@ -33,6 +34,12 @@ const Routes = () => {
         exact
         layout={MainLayout}
         path="/language/add"
+      />
+      <SecuredRouteWithLayout
+        component={LanguageEditView}
+        exact
+        layout={MainLayout}
+        path="/language/edit/:id"
       />
       <RouteWithLayout
         component={SignInView}

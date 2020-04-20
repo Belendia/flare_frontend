@@ -4,5 +4,7 @@ export {
   fetchLanguagePermissions,
   addLanguage,
   resetSaveLanguageSuccess,
+  fetchLanguage,
+  editLanguage,
 } from "./languageActions";
 export { fetchMenu } from "./menuActions";

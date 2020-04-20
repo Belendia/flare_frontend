@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { TableCell, TableRow, Typography, IconButton } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import { useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -21,6 +22,7 @@ const LanguageRow = (props) => {
   const { language } = props;
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = useState(null);
+  let history = useHistory();
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -28,6 +30,10 @@ const LanguageRow = (props) => {
 
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  const handleEdit = () => {
+    history.push(`/language/edit/${language.id}`);
   };
 
   //redux
@@ -41,7 +47,7 @@ const LanguageRow = (props) => {
   let editMenu = null;
   if (editPermission) {
     editMenu = (
-      <MenuItem onClick={handleClose}>
+      <MenuItem onClick={handleEdit}>
         <ListItemIcon className={classes.menu}>
           <EditIcon fontSize="small" />
         </ListItemIcon>

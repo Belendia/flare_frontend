@@ -122,3 +122,54 @@ export const addLanguage = (lang, history, errorCallback) => {
       });
   };
 };
+
+export const fetchLanguageSuccess = (language) => {
+  return {
+    type: actionTypes.FETCH_LANGUAGE_SUCCESS,
+    language: language,
+  };
+};
+
+export const fetchLanguageStart = () => {
+  return {
+    type: actionTypes.FETCH_LANGUAGE_START,
+  };
+};
+
+export const fetchLanguage = (langId, history) => {
+  return (dispatch) => {
+    dispatch(fetchLanguageStart());
+
+    axios
+      .get(`/languages/${langId}?q=(columns:!(name,code))`)
+      .then((res) => {
+        const language = {
+          code: res.data.result.code,
+          name: res.data.result.name,
+        };
+
+        dispatch(fetchLanguageSuccess(language));
+      })
+      .catch((err) => {
+        history.push("/language/");
+      });
+  };
+};
+
+export const editLanguage = (lang, langId, history, errorCallback) => {
+  return (dispatch) => {
+    axios
+      .put(`/languages/${langId}`, lang)
+      .then((res) => {
+        dispatch(saveLanguageSuccess());
+        history.push("/language");
+      })
+      .catch((err) => {
+        if (err.response === undefined) {
+          errorCallback(err.message);
+        } else {
+          errorCallback(err.response.data.message);
+        }
+      });
+  };
+};
