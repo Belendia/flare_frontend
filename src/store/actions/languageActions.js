@@ -44,7 +44,7 @@ export const fetchLanguages = () => {
   };
 };
 
-export const saveLanguageSuccess = () => {
+export const saveDelLanguageSuccess = () => {
   return {
     type: actionTypes.SAVE_LANGUAGE_SUCCESS,
   };
@@ -61,7 +61,7 @@ export const addLanguage = (lang, history, errorCallback) => {
     axios
       .post("/languages/", lang)
       .then((res) => {
-        dispatch(saveLanguageSuccess());
+        dispatch(saveDelLanguageSuccess());
         history.push("/language");
       })
       .catch((err) => {
@@ -102,6 +102,11 @@ export const fetchLanguage = (langId, history) => {
         dispatch(fetchLanguageSuccess(language));
       })
       .catch((err) => {
+        if (err.response === undefined) {
+          dispatch(fetchLanguagesFail(err.message));
+        } else {
+          dispatch(fetchLanguagesFail(err.response.data.message));
+        }
         history.push("/language/");
       });
   };
@@ -112,7 +117,7 @@ export const editLanguage = (lang, langId, history, errorCallback) => {
     axios
       .put(`/languages/${langId}/`, lang)
       .then((res) => {
-        dispatch(saveLanguageSuccess());
+        dispatch(saveDelLanguageSuccess());
         history.push("/language");
       })
       .catch((err) => {
@@ -120,6 +125,31 @@ export const editLanguage = (lang, langId, history, errorCallback) => {
           errorCallback(err.message);
         } else {
           errorCallback(err.response.data.message);
+        }
+      });
+  };
+};
+
+export const removeLanguageFromList = (langId) => {
+  return {
+    type: actionTypes.REMOVE_LANGUAGE,
+    langId: langId,
+  };
+};
+
+export const deleteLanguage = (langId, history) => {
+  return (dispatch) => {
+    axios
+      .delete(`/languages/${langId}/`)
+      .then((res) => {
+        dispatch(saveDelLanguageSuccess());
+        dispatch(removeLanguageFromList(langId));
+      })
+      .catch((err) => {
+        if (err.response === undefined) {
+          dispatch(fetchLanguagesFail(err.message));
+        } else {
+          dispatch(fetchLanguagesFail(err.response.data.message));
         }
       });
   };

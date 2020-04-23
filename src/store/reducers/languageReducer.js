@@ -64,6 +64,13 @@ const fetchLanguageSuccess = (state, action) => {
   };
 };
 
+const removeLanguageFromList = (state, action) => {
+  return {
+    ...state,
+    data: state.data.filter((el) => el.id !== action.langId),
+  };
+};
+
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.FETCH_LANGUAGES_START:
@@ -80,6 +87,8 @@ const reducer = (state = initialState, action) => {
       return fetchLanguageStart(state);
     case actionTypes.FETCH_LANGUAGE_SUCCESS:
       return fetchLanguageSuccess(state, action);
+    case actionTypes.REMOVE_LANGUAGE:
+      return removeLanguageFromList(state, action);
     default:
       return state;
   }

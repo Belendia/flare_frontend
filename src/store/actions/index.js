@@ -5,4 +5,5 @@ export {
   resetSaveLanguageSuccess,
   fetchLanguage,
   editLanguage,
+  deleteLanguage,
 } from "./languageActions";

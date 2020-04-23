@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import clsx from "clsx";
 import PropTypes from "prop-types";
 import PerfectScrollbar from "react-perfect-scrollbar";
+import { useHistory } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import { makeStyles } from "@material-ui/styles";
 import {
   Button,
@@ -22,6 +24,7 @@ import {
 } from "@material-ui/core";
 
 import LanguageRow from "./LanguageRow";
+import { deleteLanguage } from "../../../../store/actions";
 
 const useStyles = makeStyles((theme) => ({
   root: {},
@@ -40,18 +43,22 @@ const LanguagesTable = (props) => {
   const { className, languages, ...rest } = props;
 
   const classes = useStyles();
+  const dispatch = useDispatch();
+  let history = useHistory();
 
-  //const [languages, setLanguages] = useState([]);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [page, setPage] = useState(0);
   const [open, setDialogOpen] = useState(false);
+  const [selectedId, setSelectedId] = useState();
 
-  const handleDialogOpen = () => {
+  const handleDialogOpen = (id) => {
+    setSelectedId(id);
     setDialogOpen(true);
   };
 
   const handleYesDialogButton = () => {
-    alert("hi");
+    setDialogOpen(false);
+    dispatch(deleteLanguage(selectedId, history));
   };
 
   const handleDialogClose = () => {
@@ -85,7 +92,7 @@ const LanguagesTable = (props) => {
                     <LanguageRow
                       language={lang}
                       key={lang.id}
-                      openDialog={handleDialogOpen}
+                      openDialog={(id) => handleDialogOpen(id)}
                     />
                   ))}
                 </TableBody>

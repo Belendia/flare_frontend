@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { makeStyles } from "@material-ui/styles";
 import { useDispatch, useSelector } from "react-redux";
 import Alert from "@material-ui/lab/Alert";
-import AlertTitle from "@material-ui/lab/AlertTitle";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import Box from "@material-ui/core/Box";
 import Snackbar from "@material-ui/core/Snackbar";
@@ -33,10 +32,6 @@ const LanguageList = () => {
   );
 
   const handleClose = (event, reason) => {
-    // if (reason === "clickaway") {
-    //   return;
-    // }
-
     dispatch(resetSaveLanguageSuccess());
   };
 
@@ -69,7 +64,7 @@ const LanguageList = () => {
         <CircularProgress size={100} thickness={1.5} />
       </Box>
     );
-  } else if (languages) {
+  } else {
     content = (
       <div>
         <LanguagesToolbar />
@@ -77,21 +72,6 @@ const LanguageList = () => {
           <LanguagesTable languages={languages} />
         </div>
       </div>
-    );
-  } else {
-    content = (
-      <Box
-        display="flex"
-        justifyContent="center"
-        m={1}
-        p={1}
-        bgcolor="background.paper"
-      >
-        <Alert severity="error">
-          <AlertTitle>Error</AlertTitle>
-          Error: Oops something went wrong. Please contact your administrator.
-        </Alert>
-      </Box>
     );
   }
   return (

@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { TableCell, TableRow, Typography, IconButton } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
-import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import Menu from "@material-ui/core/Menu";
@@ -32,9 +31,9 @@ const LanguageRow = (props) => {
     setAnchorEl(null);
   };
 
-  const handleDelete = () => {
+  const handleDelete = (id) => {
     setAnchorEl(null);
-    props.openDialog();
+    props.openDialog(id);
   };
 
   const handleEdit = () => {
@@ -70,7 +69,7 @@ const LanguageRow = (props) => {
             Edit
           </MenuItem>
 
-          <MenuItem onClick={handleDelete}>
+          <MenuItem onClick={() => handleDelete(language.id)}>
             <ListItemIcon className={classes.menu}>
               <DeleteIcon fontSize="small" />
             </ListItemIcon>
@@ -83,7 +82,8 @@ const LanguageRow = (props) => {
 };
 
 LanguageRow.propTypes = {
-  language: PropTypes.object,
+  language: PropTypes.object.isRequired,
+  openDialog: PropTypes.func.isRequired,
 };
 
 export default LanguageRow;
