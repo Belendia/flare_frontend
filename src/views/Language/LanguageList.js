@@ -7,10 +7,7 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import Box from "@material-ui/core/Box";
 import Snackbar from "@material-ui/core/Snackbar";
 import { LanguagesToolbar, LanguagesTable } from "./components";
-import {
-  fetchLanguagePermissions,
-  resetSaveLanguageSuccess,
-} from "../../store/actions";
+import { fetchLanguages, resetSaveLanguageSuccess } from "../../store/actions";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -26,21 +23,14 @@ const LanguageList = () => {
   const dispatch = useDispatch();
 
   //redux
-  const {
-    error,
-    loadingLanguages,
-    languages,
-    loadingPermissions,
-    permissions,
-    saveSuccess,
-  } = useSelector((state) => ({
-    error: state.language.error,
-    loadingLanguages: state.language.loadingLanguages,
-    languages: state.language.data,
-    loadingPermissions: state.language.loadingPermissions,
-    permissions: state.language.permissions,
-    saveSuccess: state.language.saveSuccess,
-  }));
+  const { error, loadingLanguages, languages, saveSuccess } = useSelector(
+    (state) => ({
+      error: state.language.error,
+      loadingLanguages: state.language.loadingLanguages,
+      languages: state.language.data,
+      saveSuccess: state.language.saveSuccess,
+    })
+  );
 
   const handleClose = (event, reason) => {
     // if (reason === "clickaway") {
@@ -51,7 +41,7 @@ const LanguageList = () => {
   };
 
   useEffect(() => {
-    dispatch(fetchLanguagePermissions());
+    dispatch(fetchLanguages());
   }, [dispatch]);
 
   let content = null;
@@ -67,7 +57,7 @@ const LanguageList = () => {
         <Alert severity="error">{error}</Alert>
       </Box>
     );
-  } else if (loadingLanguages || loadingPermissions) {
+  } else if (loadingLanguages) {
     content = (
       <Box
         display="flex"
@@ -79,10 +69,10 @@ const LanguageList = () => {
         <CircularProgress size={100} thickness={1.5} />
       </Box>
     );
-  } else if (permissions.includes("can_get")) {
+  } else if (languages) {
     content = (
       <div>
-        <LanguagesToolbar addpermission={permissions.includes("can_post")} />
+        <LanguagesToolbar />
         <div className={classes.content}>
           <LanguagesTable languages={languages} />
         </div>

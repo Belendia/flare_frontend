@@ -32,46 +32,22 @@ const LanguageRow = (props) => {
     setAnchorEl(null);
   };
 
+  const handleDelete = () => {
+    setAnchorEl(null);
+    props.openDialog();
+  };
+
   const handleEdit = () => {
     history.push(`/language/edit/${language.id}`);
   };
 
-  //redux
-  const { permissions } = useSelector((state) => ({
-    permissions: state.language.permissions,
-  }));
-
-  const editPermission = permissions.includes("can_put");
-  const deletePermission = permissions.includes("can_delete");
-
-  let editMenu = null;
-  if (editPermission) {
-    editMenu = (
-      <MenuItem onClick={handleEdit}>
-        <ListItemIcon className={classes.menu}>
-          <EditIcon fontSize="small" />
-        </ListItemIcon>
-        Edit
-      </MenuItem>
-    );
-  }
-
-  let deleteMenu = null;
-  if (deletePermission) {
-    deleteMenu = (
-      <MenuItem onClick={handleClose}>
-        <ListItemIcon className={classes.menu}>
-          <DeleteIcon fontSize="small" />
-        </ListItemIcon>
-        Delete
-      </MenuItem>
-    );
-  }
-
-  let menu = null;
-  if (editPermission || deletePermission) {
-    menu = (
-      <React.Fragment>
+  return (
+    <TableRow className={classes.tableRow} hover key={language.id} size="small">
+      <TableCell>
+        <Typography variant="body1">{language.name}</Typography>
+      </TableCell>
+      <TableCell>{language.code}</TableCell>
+      <TableCell>
         <IconButton
           aria-label="more"
           aria-controls="action-menu"
@@ -87,21 +63,21 @@ const LanguageRow = (props) => {
           open={Boolean(anchorEl)}
           onClose={handleClose}
         >
-          {editMenu}
+          <MenuItem onClick={handleEdit}>
+            <ListItemIcon className={classes.menu}>
+              <EditIcon fontSize="small" />
+            </ListItemIcon>
+            Edit
+          </MenuItem>
 
-          {deleteMenu}
+          <MenuItem onClick={handleDelete}>
+            <ListItemIcon className={classes.menu}>
+              <DeleteIcon fontSize="small" />
+            </ListItemIcon>
+            Delete
+          </MenuItem>
         </Menu>
-      </React.Fragment>
-    );
-  }
-
-  return (
-    <TableRow className={classes.tableRow} hover key={language.id} size="small">
-      <TableCell>
-        <Typography variant="body1">{language.name}</Typography>
       </TableCell>
-      <TableCell>{language.code}</TableCell>
-      <TableCell>{menu}</TableCell>
     </TableRow>
   );
 };
