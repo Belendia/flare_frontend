@@ -7,4 +7,3 @@ export {
   fetchLanguage,
   editLanguage,
 } from "./languageActions";
-export { fetchMenu } from "./menuActions";

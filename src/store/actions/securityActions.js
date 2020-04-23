@@ -2,7 +2,6 @@ import * as actionTypes from "./actionTypes";
 import axios from "../../utils/axiosFlare";
 import * as Constants from "../../utils/constants";
 import setToken from "../../utils/setToken";
-import { fetchMenu } from "./menuActions";
 
 export const authStart = () => {
   return {
@@ -79,7 +78,6 @@ export const login = (username, password) => {
         localStorage.setItem("email", response.data.user.email);
 
         dispatch(authSuccess(response.data.user));
-        dispatch(fetchMenu());
         dispatch(checkAuthTimeout(Constants.EXPIRES_IN));
       })
       .catch((err) => {

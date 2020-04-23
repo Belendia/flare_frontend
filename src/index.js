@@ -8,7 +8,6 @@ import { Provider } from "react-redux";
 import { createStore, applyMiddleware, compose, combineReducers } from "redux";
 import thunk from "redux-thunk";
 import securityReducer from "./store/reducers/securityReducer";
-import menuReducer from "./store/reducers/menuReducer";
 import languageReducer from "./store/reducers/languageReducer";
 
 const composeEnhancers =
@@ -19,7 +18,6 @@ const composeEnhancers =
 const rootReducer = combineReducers({
   security: securityReducer,
   language: languageReducer,
-  menu: menuReducer,
 });
 
 const store = createStore(
