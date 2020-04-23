@@ -2,7 +2,7 @@ import * as actionTypes from "../actions/actionTypes";
 
 const initialState = {
   isAuthenticated: false,
-  userId: null,
+  user: {},
   error: null,
   loading: false,
 };
@@ -19,7 +19,11 @@ const authSuccess = (state, action) => {
   return {
     ...state,
     isAuthenticated: true,
-    userId: action.userId,
+    user: {
+      id: action.id,
+      username: action.username,
+      email: action.email,
+    },
     error: null,
     loading: false,
   };
@@ -38,7 +42,7 @@ const authLogout = (state, action) => {
   return {
     ...state,
     isAuthenticated: false,
-    userId: null,
+    user: {},
   };
 };
 

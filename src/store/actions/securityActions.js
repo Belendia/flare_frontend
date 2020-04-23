@@ -1,9 +1,7 @@
-import jwt_decode from "jwt-decode";
-
 import * as actionTypes from "./actionTypes";
 import axios from "../../utils/axiosFlare";
 import * as Constants from "../../utils/constants";
-import setJWTToken from "../../utils/setJWTToken";
+import setToken from "../../utils/setToken";
 import { fetchMenu } from "./menuActions";
 
 export const authStart = () => {
@@ -12,10 +10,10 @@ export const authStart = () => {
   };
 };
 
-export const authSuccess = (token, userId) => {
+export const authSuccess = (user) => {
   return {
     type: actionTypes.AUTH_SUCCESS,
-    userId: userId,
+    user: user,
   };
 };
 
@@ -27,13 +25,24 @@ export const authFail = (error) => {
 };
 
 export const logout = () => {
-  localStorage.removeItem("token");
-  localStorage.removeItem("expirationDate");
-  localStorage.removeItem("userId");
-  setJWTToken(false);
-
-  return {
-    type: actionTypes.AUTH_LOGOUT,
+  return (dispatch) => {
+    axios
+      .post("/auth/logout")
+      .then((response) => {
+        localStorage.removeItem("token");
+        localStorage.removeItem("expirationDate");
+        localStorage.removeItem("userId");
+        localStorage.removeItem("userName");
+        localStorage.removeItem("email");
+        setToken(false);
+        dispatch({
+          type: actionTypes.AUTH_LOGOUT,
+        });
+      })
+      .catch((err) => {
+        console.log("Unable to logout");
+        console.log(err);
+      });
   };
 };
 
@@ -51,26 +60,25 @@ export const login = (username, password) => {
     const authData = {
       username: username,
       password: password,
-      provider: "db",
     };
 
     axios
-      .post("/security/login", authData)
+      .post("/auth/login", authData)
       .then((response) => {
         const expirationDate = new Date(
           new Date().getTime() + Constants.EXPIRES_IN
         );
 
-        localStorage.setItem("token", response.data.access_token);
+        localStorage.setItem("token", response.data.token);
         localStorage.setItem("expirationDate", expirationDate);
 
         //set our token in header
-        setJWTToken(response.data.access_token);
-        //decode token on React
-        const userId = jwt_decode(response.data.access_token);
-        localStorage.setItem("userId", userId);
+        setToken(response.data.token);
+        localStorage.setItem("userId", response.data.user.id);
+        localStorage.setItem("username", response.data.user.username);
+        localStorage.setItem("email", response.data.user.email);
 
-        dispatch(authSuccess(userId));
+        dispatch(authSuccess(response.data.user));
         dispatch(fetchMenu());
         dispatch(checkAuthTimeout(Constants.EXPIRES_IN));
       })
@@ -78,7 +86,7 @@ export const login = (username, password) => {
         if (err.response === undefined) {
           dispatch(authFail("Unable to communicate with the server."));
         } else {
-          dispatch(authFail(err.response.data.message));
+          dispatch(authFail(err.response.data.non_field_errors[0]));
         }
       });
   };
@@ -105,10 +113,14 @@ export const authCheckState = () => {
         console.log("Expiration date is lessthan current date - Logout");
         dispatch(logout());
       } else {
-        const userId = localStorage.getItem("userId");
-        setJWTToken(token);
-        dispatch(authSuccess(userId));
-        dispatch(fetchMenu());
+        const user = {
+          id: localStorage.getItem("userId"),
+          username: localStorage.getItem("username"),
+          email: localStorage.getItem("email"),
+        };
+        setToken(token);
+        dispatch(authSuccess(user));
+
         dispatch(
           checkAuthTimeout(
             (expirationDate.getTime() - new Date().getTime()) / 1000
