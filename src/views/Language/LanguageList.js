@@ -7,6 +7,7 @@ import Box from "@material-ui/core/Box";
 import Snackbar from "@material-ui/core/Snackbar";
 import { LanguagesToolbar, LanguagesTable } from "./components";
 import { fetchLanguages, resetSaveLanguageSuccess } from "../../store/actions";
+import * as Constants from "../../utils/constants";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -20,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
 const LanguageList = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const [limit, setLimit] = useState(10); //limit
+  const [limit, setLimit] = useState(Constants.PAGE_SIZE); //limit
   const [offset, setOffset] = useState(0); // page
 
   //redux
