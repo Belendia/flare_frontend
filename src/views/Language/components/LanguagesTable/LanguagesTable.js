@@ -40,14 +40,12 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const LanguagesTable = (props) => {
-  const { className, languages, ...rest } = props;
+  //const { className, languages, count, ...rest } = props;
 
   const classes = useStyles();
   const dispatch = useDispatch();
   let history = useHistory();
 
-  const [rowsPerPage, setRowsPerPage] = useState(10);
-  const [page, setPage] = useState(0);
   const [open, setDialogOpen] = useState(false);
   const [selectedId, setSelectedId] = useState();
 
@@ -66,16 +64,16 @@ const LanguagesTable = (props) => {
   };
 
   const handlePageChange = (event, page) => {
-    //setPage(page);
+    props.setoffset(page);
   };
 
   const handleRowsPerPageChange = (event) => {
-    //etRowsPerPage(event.target.value);
+    props.setlimit(event.target.value);
   };
 
   return (
     <React.Fragment>
-      <Card {...rest} className={clsx(classes.root, className)}>
+      <Card {...props.rest} className={clsx(classes.root, props.className)}>
         <CardContent className={classes.content}>
           <PerfectScrollbar>
             <div className={classes.inner}>
@@ -88,7 +86,7 @@ const LanguagesTable = (props) => {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {languages.map((lang) => (
+                  {props.languages.map((lang) => (
                     <LanguageRow
                       language={lang}
                       key={lang.id}
@@ -103,11 +101,11 @@ const LanguagesTable = (props) => {
         <CardActions className={classes.actions}>
           <TablePagination
             component="div"
-            count={languages.length}
+            count={props.count}
             onChangePage={handlePageChange}
             onChangeRowsPerPage={handleRowsPerPageChange}
-            page={page}
-            rowsPerPage={rowsPerPage}
+            page={props.offset}
+            rowsPerPage={props.limit}
             rowsPerPageOptions={[5, 10, 25]}
           />
         </CardActions>
@@ -141,6 +139,11 @@ const LanguagesTable = (props) => {
 LanguagesTable.propTypes = {
   className: PropTypes.string,
   languages: PropTypes.array.isRequired,
+  count: PropTypes.number.isRequired,
+  limit: PropTypes.number.isRequired,
+  offset: PropTypes.number.isRequired,
+  setlimit: PropTypes.func.isRequired,
+  setoffset: PropTypes.func.isRequired,
 };
 
 export default LanguagesTable;

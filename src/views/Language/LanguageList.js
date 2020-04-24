@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/styles";
 import { useDispatch, useSelector } from "react-redux";
 import Alert from "@material-ui/lab/Alert";
@@ -20,24 +20,31 @@ const useStyles = makeStyles((theme) => ({
 const LanguageList = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
+  const [limit, setLimit] = useState(10); //limit
+  const [offset, setOffset] = useState(0); // page
 
   //redux
-  const { error, loadingLanguages, languages, saveSuccess } = useSelector(
-    (state) => ({
-      error: state.language.error,
-      loadingLanguages: state.language.loadingLanguages,
-      languages: state.language.data,
-      saveSuccess: state.language.saveSuccess,
-    })
-  );
+  const {
+    error,
+    loadingLanguages,
+    languages,
+    count,
+    saveSuccess,
+  } = useSelector((state) => ({
+    error: state.language.error,
+    loadingLanguages: state.language.loadingLanguages,
+    languages: state.language.data,
+    count: state.language.count,
+    saveSuccess: state.language.saveSuccess,
+  }));
 
   const handleClose = (event, reason) => {
     dispatch(resetSaveLanguageSuccess());
   };
 
   useEffect(() => {
-    dispatch(fetchLanguages());
-  }, [dispatch]);
+    dispatch(fetchLanguages(limit, offset * limit)); //rowPerPage, page
+  }, [dispatch, limit, offset]);
 
   let content = null;
   if (error) {
@@ -69,7 +76,14 @@ const LanguageList = () => {
       <div>
         <LanguagesToolbar />
         <div className={classes.content}>
-          <LanguagesTable languages={languages} />
+          <LanguagesTable
+            languages={languages}
+            count={count}
+            limit={limit}
+            offset={offset}
+            setlimit={setLimit}
+            setoffset={setOffset}
+          />
         </div>
       </div>
     );

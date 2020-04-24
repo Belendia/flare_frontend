@@ -2,6 +2,7 @@ import * as actionTypes from "../actions/actionTypes";
 
 const initialState = {
   data: [],
+  count: 0,
   loadingLanguages: false,
   saveSuccess: false,
   error: null,
@@ -23,6 +24,7 @@ const fetchLanguagesSuccess = (state, action) => {
     data: action.data,
     loadingLanguages: false,
     error: null,
+    count: action.count,
   };
 };
 

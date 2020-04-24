@@ -2,10 +2,11 @@ import * as actionTypes from "./actionTypes";
 import axios from "../../utils/axiosFlare";
 import mapResponseErrors from "../../utils/mapResponseErrors";
 
-export const fetchLanguagesSuccess = (languages) => {
+export const fetchLanguagesSuccess = (languages, count) => {
   return {
     type: actionTypes.FETCH_LANGUAGES_SUCCESS,
     data: languages,
+    count: count,
   };
 };
 
@@ -22,18 +23,19 @@ export const fetchLanguagesStart = () => {
   };
 };
 
-export const fetchLanguages = () => {
+export const fetchLanguages = (limit, offset) => {
   return (dispatch) => {
     dispatch(fetchLanguagesStart());
 
     axios
-      .get("/languages/")
+      .get(`/languages/?limit=${limit}&offset=${offset}`)
       .then((res) => {
         const languages = [];
+        const count = res.data.count;
 
-        res.data.forEach((lang, index) => languages.push({ ...lang }));
+        res.data.results.forEach((lang, index) => languages.push({ ...lang }));
 
-        dispatch(fetchLanguagesSuccess(languages));
+        dispatch(fetchLanguagesSuccess(languages, count));
       })
       .catch((err) => {
         if (err.response === undefined) {
