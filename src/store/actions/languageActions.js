@@ -1,5 +1,6 @@
 import * as actionTypes from "./actionTypes";
 import axios from "../../utils/axiosFlare";
+import mapResponseErrors from "../../utils/mapResponseErrors";
 
 export const fetchLanguagesSuccess = (languages) => {
   return {
@@ -68,7 +69,8 @@ export const addLanguage = (lang, history, errorCallback) => {
         if (err.response === undefined) {
           errorCallback(err.message);
         } else {
-          errorCallback(err.response.data.message);
+          const errors = mapResponseErrors(err.response.data);
+          errorCallback(errors);
         }
       });
   };
@@ -124,7 +126,8 @@ export const editLanguage = (lang, langId, history, errorCallback) => {
         if (err.response === undefined) {
           errorCallback(err.message);
         } else {
-          errorCallback(err.response.data.message);
+          const errors = mapResponseErrors(err.response.data);
+          errorCallback(errors);
         }
       });
   };
