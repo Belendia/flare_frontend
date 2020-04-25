@@ -16,6 +16,9 @@ const useStyles = makeStyles((theme) => ({
   content: {
     marginTop: theme.spacing(2),
   },
+  message: {
+    marginLeft: theme.spacing(0),
+  },
 }));
 
 const LanguageList = () => {
@@ -23,6 +26,7 @@ const LanguageList = () => {
   const dispatch = useDispatch();
   const [limit, setLimit] = useState(Constants.PAGE_SIZE); //limit
   const [offset, setOffset] = useState(0); // page
+  const [searchTerm, setSearchTerm] = useState("");
 
   //redux
   const {
@@ -43,9 +47,13 @@ const LanguageList = () => {
     dispatch(resetSaveLanguageSuccess());
   };
 
+  const handleSearchTermChange = (searchTerm) => {
+    setSearchTerm(searchTerm);
+  };
+
   useEffect(() => {
-    dispatch(fetchLanguages(limit, offset * limit)); //rowPerPage, page
-  }, [dispatch, limit, offset]);
+    dispatch(fetchLanguages(limit, offset * limit, searchTerm)); //rowPerPage, page
+  }, [dispatch, limit, offset, searchTerm]);
 
   let content = null;
   if (error) {
@@ -56,6 +64,7 @@ const LanguageList = () => {
         m={1}
         p={1}
         bgcolor="background.paper"
+        className={classes.message}
       >
         <Alert severity="error">{error}</Alert>
       </Box>
@@ -68,29 +77,28 @@ const LanguageList = () => {
         m={1}
         p={1}
         bgcolor="background.paper"
+        className={classes.message}
       >
         <CircularProgress size={100} thickness={1.5} />
       </Box>
     );
   } else {
     content = (
-      <div>
-        <LanguagesToolbar />
-        <div className={classes.content}>
-          <LanguagesTable
-            languages={languages}
-            count={count}
-            limit={limit}
-            offset={offset}
-            setlimit={setLimit}
-            setoffset={setOffset}
-          />
-        </div>
+      <div className={classes.content}>
+        <LanguagesTable
+          languages={languages}
+          count={count}
+          limit={limit}
+          offset={offset}
+          setlimit={setLimit}
+          setoffset={setOffset}
+        />
       </div>
     );
   }
   return (
     <div className={classes.root}>
+      <LanguagesToolbar onSearchTermChange={handleSearchTermChange} />
       {content}
       <Snackbar
         open={saveSuccess}

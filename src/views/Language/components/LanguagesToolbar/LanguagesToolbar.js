@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import clsx from "clsx";
 import { makeStyles } from "@material-ui/styles";
@@ -30,13 +30,27 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const LanguagesToolbar = (props) => {
-  const { className, ...rest } = props;
+  const { className, onSearchTermChange, ...rest } = props;
 
   const classes = useStyles();
   let history = useHistory();
+  const [searchTerm, setSearchTerm] = useState("");
 
   const handleClick = () => {
     history.push("/language/add");
+  };
+
+  const onKeyPress = (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      if (onSearchTermChange !== undefined) {
+        onSearchTermChange(searchTerm);
+      }
+    }
+  };
+
+  const onChange = (e) => {
+    setSearchTerm(e.target.value);
   };
 
   return (
@@ -52,6 +66,8 @@ const LanguagesToolbar = (props) => {
         <SearchInput
           className={classes.searchInput}
           placeholder="Search language"
+          onChange={onChange}
+          onKeyPress={onKeyPress}
         />
       </div>
     </div>
@@ -60,6 +76,7 @@ const LanguagesToolbar = (props) => {
 
 LanguagesToolbar.propTypes = {
   className: PropTypes.string,
+  onSearchTermChange: PropTypes.func,
 };
 
 export default LanguagesToolbar;

@@ -23,12 +23,12 @@ export const fetchLanguagesStart = () => {
   };
 };
 
-export const fetchLanguages = (limit, offset) => {
+export const fetchLanguages = (limit, offset, searchTerm) => {
   return (dispatch) => {
     dispatch(fetchLanguagesStart());
 
     axios
-      .get(`/languages/?limit=${limit}&offset=${offset}`)
+      .get(`/languages/?limit=${limit}&offset=${offset}&search=${searchTerm}`)
       .then((res) => {
         const languages = [];
         const count = res.data.count;
