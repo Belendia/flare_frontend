@@ -59,6 +59,13 @@ export const resetSaveLanguageSuccess = () => {
   };
 };
 
+export const updateLanguageFail = (error) => {
+  return {
+    type: actionTypes.UPDATE_LANGUAGE_FAIL,
+    error: error,
+  };
+};
+
 export const addLanguage = (lang, history, errorCallback) => {
   return (dispatch) => {
     axios
@@ -69,6 +76,7 @@ export const addLanguage = (lang, history, errorCallback) => {
       })
       .catch((err) => {
         if (err.response === undefined) {
+          dispatch(updateLanguageFail(err.message));
           errorCallback(err.message);
         } else {
           const errors = mapResponseErrors(err.response.data);
@@ -126,6 +134,7 @@ export const editLanguage = (lang, langId, history, errorCallback) => {
       })
       .catch((err) => {
         if (err.response === undefined) {
+          dispatch(updateLanguageFail(err.message));
           errorCallback(err.message);
         } else {
           const errors = mapResponseErrors(err.response.data);

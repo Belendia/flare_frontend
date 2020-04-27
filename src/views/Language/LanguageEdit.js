@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import clsx from "clsx";
 import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/styles";
@@ -12,7 +12,9 @@ import {
   Grid,
   Button,
   CircularProgress,
+  Snackbar,
 } from "@material-ui/core";
+import Alert from "@material-ui/lab/Alert";
 import { TextField } from "../../components";
 import { Formik, Field, Form } from "formik";
 import * as yup from "yup";
@@ -40,11 +42,13 @@ const LanguageEdit = (props) => {
   const classes = useStyles();
   let history = useHistory();
   const dispatch = useDispatch();
+  const [showError, setShowError] = useState(false);
 
   //redux
-  const { language, loadingLanguage } = useSelector((state) => ({
+  const { language, loadingLanguage, error } = useSelector((state) => ({
     language: state.language.language,
     loadingLanguages: state.language.loadingLanguages,
+    error: state.language.error,
   }));
 
   useEffect(() => {
@@ -55,76 +59,92 @@ const LanguageEdit = (props) => {
     history.push("/language");
   };
 
-  return (
-    <Formik
-      validateOnChange={true}
-      initialValues={language}
-      enableReinitialize={true}
-      validationSchema={validationSchema}
-      onSubmit={(data, { setSubmitting, setErrors }) => {
-        setSubmitting(true);
+  const handleClose = () => {
+    setShowError(false);
+  };
 
-        dispatch(
-          editLanguage(data, props.match.params.id, history, (err) => {
-            setErrors(err);
-            setSubmitting(false);
-          })
-        );
-      }}
-    >
-      {({ values, errors, isSubmitting }) => (
-        <Card {...rest} className={clsx(classes.root, className)}>
-          <Form autoComplete="off">
-            <CardHeader subheader="Edit a language" title="Language" />
-            <Divider />
-            <CardContent>
-              <Grid container spacing={3}>
-                <Grid item md={12} xs={12}>
-                  <Field
-                    placeholder="Name"
-                    name="name"
-                    type="input"
-                    variant="outlined"
-                    label="Name"
-                    margin="dense"
-                    as={TextField}
-                  />
+  return (
+    <React.Fragment>
+      <Formik
+        validateOnChange={true}
+        initialValues={language}
+        enableReinitialize={true}
+        validationSchema={validationSchema}
+        onSubmit={(data, { setSubmitting, setErrors }) => {
+          setSubmitting(true);
+
+          dispatch(
+            editLanguage(data, props.match.params.id, history, (err) => {
+              if (typeof err === "string") {
+                setShowError(true);
+              } else {
+                setErrors(err);
+              }
+              setSubmitting(false);
+            })
+          );
+        }}
+      >
+        {({ values, errors, isSubmitting }) => (
+          <Card {...rest} className={clsx(classes.root, className)}>
+            <Form autoComplete="off">
+              <CardHeader subheader="Edit a language" title="Language" />
+              <Divider />
+              <CardContent>
+                <Grid container spacing={3}>
+                  <Grid item md={12} xs={12}>
+                    <Field
+                      placeholder="Name"
+                      name="name"
+                      type="input"
+                      variant="outlined"
+                      label="Name"
+                      margin="dense"
+                      as={TextField}
+                    />
+                  </Grid>
+                  <Grid item md={12} xs={12}>
+                    <Field
+                      placeholder="Code"
+                      name="code"
+                      type="input"
+                      variant="outlined"
+                      label="Code"
+                      margin="dense"
+                      as={TextField}
+                    />
+                  </Grid>
                 </Grid>
-                <Grid item md={12} xs={12}>
-                  <Field
-                    placeholder="Code"
-                    name="code"
-                    type="input"
-                    variant="outlined"
-                    label="Code"
-                    margin="dense"
-                    as={TextField}
-                  />
-                </Grid>
-              </Grid>
-            </CardContent>
-            <Divider />
-            <CardActions>
-              <Button color="primary" variant="contained" type="submit">
-                {isSubmitting && (
-                  <CircularProgress
-                    variant="indeterminate"
-                    disableShrink
-                    className={classes.saving}
-                    size={14}
-                    thickness={4}
-                  />
-                )}
-                Save
-              </Button>
-              <Button color="primary" variant="text" onClick={handleCancel}>
-                Cancel
-              </Button>
-            </CardActions>
-          </Form>
-        </Card>
-      )}
-    </Formik>
+              </CardContent>
+              <Divider />
+              <CardActions>
+                <Button color="primary" variant="contained" type="submit">
+                  {isSubmitting && (
+                    <CircularProgress
+                      variant="indeterminate"
+                      disableShrink
+                      className={classes.saving}
+                      size={14}
+                      thickness={4}
+                    />
+                  )}
+                  Save
+                </Button>
+                <Button color="primary" variant="text" onClick={handleCancel}>
+                  Cancel
+                </Button>
+              </CardActions>
+            </Form>
+          </Card>
+        )}
+      </Formik>
+
+      <Snackbar open={showError} autoHideDuration={5000} onClose={handleClose}>
+        <Alert onClose={handleClose} severity="error">
+          {error}
+        </Alert>
+      </Snackbar>
+    </React.Fragment>
   );
 };
 
