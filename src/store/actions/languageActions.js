@@ -1,6 +1,7 @@
 import * as actionTypes from "./actionTypes";
 import axios from "../../utils/axiosFlare";
 import mapResponseErrors from "../../utils/mapResponseErrors";
+import { logout } from "./securityActions";
 
 export const fetchLanguagesSuccess = (languages, count) => {
   return {
@@ -41,7 +42,11 @@ export const fetchLanguages = (limit, offset, searchTerm) => {
         if (err.response === undefined) {
           dispatch(fetchLanguagesFail(err.message));
         } else {
-          dispatch(fetchLanguagesFail(err.response.data.message));
+          if (err.response.status === 401 || err.response.status === 403) {
+            dispatch(logout());
+          } else {
+            dispatch(fetchLanguagesFail(err.response.data.message));
+          }
         }
       });
   };
