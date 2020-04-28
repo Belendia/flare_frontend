@@ -173,3 +173,52 @@ export const deleteLanguage = (langId, history) => {
       });
   };
 };
+
+export const fetchLanguagesLookupSuccess = (lookup) => {
+  return {
+    type: actionTypes.FETCH_LANGUAGES_LOOKUP_SUCCESS,
+    lookup: lookup,
+  };
+};
+
+export const fetchLanguagesLookupFail = (error) => {
+  return {
+    type: actionTypes.FETCH_LANGUAGES_LOOKUP_FAIL,
+    error: error,
+  };
+};
+
+export const fetchLanguagesLookupStart = () => {
+  return {
+    type: actionTypes.FETCH_LANGUAGES_LOOKUP_START,
+  };
+};
+
+export const fetchLanguagesLookup = () => {
+  return (dispatch) => {
+    dispatch(fetchLanguagesLookupStart());
+
+    axios
+      .get("/languages/?limit=1000")
+      .then((res) => {
+        const lookup = {};
+
+        res.data.results.forEach(
+          (lang, index) => (lookup[lang.id] = lang.name)
+        );
+
+        dispatch(fetchLanguagesLookupSuccess(lookup));
+      })
+      .catch((err) => {
+        if (err.response === undefined) {
+          dispatch(fetchLanguagesLookupFail(err.message));
+        } else {
+          if (err.response.status === 401 || err.response.status === 403) {
+            dispatch(logout());
+          } else {
+            dispatch(fetchLanguagesLookupFail(err.response.data.message));
+          }
+        }
+      });
+  };
+};

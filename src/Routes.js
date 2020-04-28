@@ -11,6 +11,9 @@ import {
   LanguageList as LanguageListView,
   LanguageAdd as LanguageAddView,
   LanguageEdit as LanguageEditView,
+  SubscriberList as SubscriberListView,
+  SubscriberAdd as SubscriberAddView,
+  SubscriberEdit as SubscriberEditView,
 } from "./views";
 
 const Routes = () => {
@@ -40,6 +43,24 @@ const Routes = () => {
         exact
         layout={MainLayout}
         path="/language/edit/:id"
+      />
+      <SecuredRouteWithLayout
+        component={SubscriberListView}
+        exact
+        layout={MainLayout}
+        path="/subscriber"
+      />
+      <SecuredRouteWithLayout
+        component={SubscriberAddView}
+        exact
+        layout={MainLayout}
+        path="/subscriber/add"
+      />
+      <SecuredRouteWithLayout
+        component={SubscriberEditView}
+        exact
+        layout={MainLayout}
+        path="/subscriber/edit/:id"
       />
       <RouteWithLayout
         component={SignInView}

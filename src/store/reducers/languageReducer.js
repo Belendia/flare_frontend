@@ -8,6 +8,8 @@ const initialState = {
   error: null,
   language: { name: "", code: "" },
   loadingLanguage: false,
+  lookup: {},
+  loadingLookup: false,
 };
 
 const fetchLanguagesStart = (state) => {
@@ -80,6 +82,31 @@ const updateLanguageFail = (state, action) => {
   };
 };
 
+const fetchLanguagesLookupStart = (state) => {
+  return {
+    ...state,
+    error: null,
+    loadingLookup: true,
+  };
+};
+
+const fetchLanguagesLookupSuccess = (state, action) => {
+  return {
+    ...state,
+    lookup: action.lookup,
+    loadingLookup: false,
+    error: null,
+  };
+};
+
+const fetchLanguagesLookupFail = (state, action) => {
+  return {
+    ...state,
+    loadingLookup: false,
+    error: action.error,
+  };
+};
+
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.FETCH_LANGUAGES_START:
@@ -100,6 +127,12 @@ const reducer = (state = initialState, action) => {
       return removeLanguageFromList(state, action);
     case actionTypes.UPDATE_LANGUAGE_FAIL:
       return updateLanguageFail(state, action);
+    case actionTypes.FETCH_LANGUAGES_LOOKUP_START:
+      return fetchLanguagesLookupStart(state);
+    case actionTypes.FETCH_LANGUAGES_LOOKUP_SUCCESS:
+      return fetchLanguagesLookupSuccess(state, action);
+    case actionTypes.FETCH_LANGUAGES_LOOKUP_FAIL:
+      return fetchLanguagesLookupFail(state, action);
     default:
       return state;
   }

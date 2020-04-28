@@ -17,13 +17,7 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-const CustomSelectField = ({
-  placeholder,
-  variant,
-  margin,
-  label,
-  ...props
-}) => {
+const CustomSelectField = ({ variant, margin, label, lemo, ...props }) => {
   const [field, meta] = useField(props);
   const errorText = meta.error && meta.touched ? meta.error : "";
   const classes = useStyles();
@@ -33,6 +27,9 @@ const CustomSelectField = ({
     .replace(/[^a-z]+/g, "")
     .substr(0, 9);
 
+  const cleanFields = { ...field };
+  cleanFields.value = cleanFields.value === undefined ? "" : cleanFields.value;
+
   return (
     <FormControl
       variant={variant}
@@ -40,7 +37,12 @@ const CustomSelectField = ({
       error={!!errorText}
     >
       <InputLabel id={randLabelId}>{label}</InputLabel>
-      <Select margin={margin} {...field} label={label} labelId={randLabelId}>
+      <Select
+        margin={margin}
+        {...cleanFields}
+        label={label}
+        labelId={randLabelId}
+      >
         {props.children}
       </Select>
       {!!errorText && <FormHelperText>{errorText}</FormHelperText>}

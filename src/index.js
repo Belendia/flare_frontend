@@ -9,6 +9,7 @@ import { createStore, applyMiddleware, compose, combineReducers } from "redux";
 import thunk from "redux-thunk";
 import securityReducer from "./store/reducers/securityReducer";
 import languageReducer from "./store/reducers/languageReducer";
+import subscriberReducer from "./store/reducers/subscriberReducer";
 
 const composeEnhancers =
   (process.env.NODE_ENV === "development"
@@ -18,6 +19,7 @@ const composeEnhancers =
 const rootReducer = combineReducers({
   security: securityReducer,
   language: languageReducer,
+  subscriber: subscriberReducer,
 });
 
 const store = createStore(
