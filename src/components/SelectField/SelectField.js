@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-const CustomSelectField = ({ variant, margin, label, lemo, ...props }) => {
+const CustomSelectField = ({ variant, margin, label, ...props }) => {
   const [field, meta] = useField(props);
   const errorText = meta.error && meta.touched ? meta.error : "";
   const classes = useStyles();

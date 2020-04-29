@@ -2,7 +2,15 @@ import React from "react";
 import { useField } from "formik";
 import { TextField } from "@material-ui/core";
 
-const CustomTextField = ({ placeholder, variant, margin, label, ...props }) => {
+const CustomTextField = ({
+  placeholder,
+  variant,
+  margin,
+  label,
+  multiline,
+  rows,
+  ...props
+}) => {
   const [field, meta] = useField(props);
   const errorText = meta.error && meta.touched ? meta.error : "";
 
@@ -11,6 +19,8 @@ const CustomTextField = ({ placeholder, variant, margin, label, ...props }) => {
       fullWidth
       placeholder={placeholder}
       {...field}
+      rows={rows}
+      multiline={multiline}
       variant={variant}
       margin={margin}
       label={label}
