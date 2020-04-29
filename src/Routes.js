@@ -14,6 +14,8 @@ import {
   SubscriberList as SubscriberListView,
   SubscriberAdd as SubscriberAddView,
   SubscriberEdit as SubscriberEditView,
+  MessageList as MessageListView,
+  MessageAdd as MessageAddView,
 } from "./views";
 
 const Routes = () => {
@@ -61,6 +63,18 @@ const Routes = () => {
         exact
         layout={MainLayout}
         path="/subscriber/edit/:id"
+      />
+      <SecuredRouteWithLayout
+        component={MessageListView}
+        exact
+        layout={MainLayout}
+        path="/message"
+      />
+      <SecuredRouteWithLayout
+        component={MessageAddView}
+        exact
+        layout={MainLayout}
+        path="/message/add"
       />
       <RouteWithLayout
         component={SignInView}

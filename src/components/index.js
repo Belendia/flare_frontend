@@ -3,3 +3,4 @@ export { default as StatusBullet } from "./StatusBullet";
 export { RouteWithLayout, SecuredRouteWithLayout } from "./RouteWithLayout";
 export { default as TextField } from "./TextField";
 export { default as SelectField } from "./SelectField";
+export { default as AutocompleteField } from "./AutocompleteField";

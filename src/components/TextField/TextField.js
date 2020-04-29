@@ -9,6 +9,7 @@ const CustomTextField = ({
   label,
   multiline,
   rows,
+  rowsMax,
   ...props
 }) => {
   const [field, meta] = useField(props);
@@ -21,6 +22,7 @@ const CustomTextField = ({
       {...field}
       rows={rows}
       multiline={multiline}
+      rowsMax={rowsMax}
       variant={variant}
       margin={margin}
       label={label}

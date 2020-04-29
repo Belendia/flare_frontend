@@ -1,7 +1,6 @@
 import React from "react";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import { TextField } from "@material-ui/core";
-import { useField } from "formik";
 import { fieldToTextField } from "formik-material-ui";
 
 const AutocompleteField = ({ textFieldProps, ...props }) => {

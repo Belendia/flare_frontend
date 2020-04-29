@@ -201,10 +201,10 @@ export const fetchLanguagesLookup = () => {
     axios
       .get("/languages/?limit=1000")
       .then((res) => {
-        const lookup = {};
+        const lookup = [];
 
-        res.data.results.forEach(
-          (lang, index) => (lookup[lang.id] = lang.name)
+        res.data.results.forEach((lang, index) =>
+          lookup.push({ value: lang.id, label: lang.name })
         );
 
         dispatch(fetchLanguagesLookupSuccess(lookup));
