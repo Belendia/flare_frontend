@@ -6,7 +6,7 @@ const initialState = {
   loadingLanguages: false,
   saveSuccess: false,
   error: null,
-  language: { name: "", code: "" },
+  language: null,
   loadingLanguage: false,
   lookup: {},
   loadingLookup: false,

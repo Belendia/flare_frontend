@@ -13,6 +13,7 @@ import {
   Button,
   CircularProgress,
   Snackbar,
+  Box,
 } from "@material-ui/core";
 import Alert from "@material-ui/lab/Alert";
 import { TextField } from "../../components";
@@ -63,7 +64,18 @@ const LanguageEdit = (props) => {
     setShowError(false);
   };
 
-  return (
+  return loadingLanguage || language === null ? (
+    <Box
+      display="flex"
+      justifyContent="center"
+      m={1}
+      p={1}
+      bgcolor="background.paper"
+      className={classes.message}
+    >
+      <CircularProgress size={100} thickness={1.5} />
+    </Box>
+  ) : (
     <React.Fragment>
       <Formik
         validateOnChange={true}
