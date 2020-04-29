@@ -2,6 +2,7 @@ import * as actionTypes from "./actionTypes";
 import axios from "../../utils/axiosFlare";
 import * as Constants from "../../utils/constants";
 import setToken from "../../utils/setToken";
+import cleanLocalStorage from "../../utils/cleanLocalStorage";
 
 export const authStart = () => {
   return {
@@ -28,19 +29,18 @@ export const logout = () => {
     axios
       .post("/auth/logout")
       .then((response) => {
-        localStorage.removeItem("token");
-        localStorage.removeItem("expirationDate");
-        localStorage.removeItem("userId");
-        localStorage.removeItem("userName");
-        localStorage.removeItem("email");
+        cleanLocalStorage();
         setToken(false);
         dispatch({
           type: actionTypes.AUTH_LOGOUT,
         });
       })
       .catch((err) => {
-        console.log("Unable to logout");
-        console.log(err);
+        cleanLocalStorage();
+        setToken(false);
+        dispatch({
+          type: actionTypes.AUTH_LOGOUT,
+        });
       });
   };
 };
