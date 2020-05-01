@@ -1,5 +1,5 @@
 import React from "react";
-import { TableCell, TableRow, Typography, IconButton } from "@material-ui/core";
+import { TableCell, TableRow, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import PropTypes from "prop-types";
 
@@ -36,9 +36,9 @@ const MessageRow = (props) => {
 
   let c = classes.buttonRound;
 
-  if (message.status == "started") {
+  if (message.status === "started") {
     c += " " + classes.orange;
-  } else if (message.status == "error") {
+  } else if (message.status === "error") {
     c += " " + classes.red;
   }
   return (
