@@ -180,3 +180,10 @@ export const deleteMessage = (msgId, history) => {
       });
   };
 };
+
+export const changeMessageStatus = (data) => {
+  return {
+    type: actionTypes.CHANGE_MESSAGE_STATUS,
+    data: data,
+  };
+};

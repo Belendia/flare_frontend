@@ -23,4 +23,5 @@ export {
   fetchMessage,
   editMessage,
   deleteMessage,
+  changeMessageStatus,
 } from "./messageActions";

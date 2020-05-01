@@ -80,6 +80,18 @@ const updateMessageFail = (state, action) => {
   };
 };
 
+const changeMessageStatus = (state, action) => {
+  return {
+    ...state,
+    data: state.data.map((obj) => {
+      if (obj.id === action.data.content.messageId) {
+        obj.status = action.data.content.status;
+      }
+      return obj;
+    }),
+  };
+};
+
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.FETCH_MESSAGES_START:
@@ -100,6 +112,8 @@ const reducer = (state = initialState, action) => {
       return removeMessageFromList(state, action);
     case actionTypes.UPDATE_MESSAGE_FAIL:
       return updateMessageFail(state, action);
+    case actionTypes.CHANGE_MESSAGE_STATUS:
+      return changeMessageStatus(state, action);
     default:
       return state;
   }

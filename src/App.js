@@ -12,7 +12,10 @@ import "./assets/scss/index.scss";
 import validators from "./common/validators";
 import Routes from "./Routes";
 import { useDispatch, useSelector } from "react-redux";
-import { authCheckState as onTryAutoSignIn } from "./store/actions";
+import {
+  authCheckState as onTryAutoSignIn,
+  changeMessageStatus,
+} from "./store/actions";
 import * as Constants from "./utils/constants";
 
 Chart.helpers.extend(Chart.elements.Rectangle.prototype, {
@@ -43,8 +46,9 @@ function App() {
     ws.current.onclose = () => console.log("ws closed");
 
     ws.current.onmessage = (e) => {
-      //const message = JSON.parse(e.data);
+      const message = JSON.parse(e.data);
       console.log(e.data);
+      dispatch(changeMessageStatus(message));
     };
 
     return () => {
