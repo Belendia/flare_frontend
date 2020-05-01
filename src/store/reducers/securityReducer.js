@@ -5,6 +5,7 @@ const initialState = {
   user: {},
   error: null,
   loading: false,
+  timer: null,
 };
 
 const authStart = (state, action) => {
@@ -46,6 +47,13 @@ const authLogout = (state, action) => {
   };
 };
 
+const authSetTimeout = (state, action) => {
+  return {
+    ...state,
+    timer: action.timer,
+  };
+};
+
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.AUTH_START:
@@ -56,6 +64,8 @@ const reducer = (state = initialState, action) => {
       return authFail(state, action);
     case actionTypes.AUTH_LOGOUT:
       return authLogout(state, action);
+    case actionTypes.AUTH_SET_TIMER:
+      return authSetTimeout(state, action);
     default:
       return state;
   }

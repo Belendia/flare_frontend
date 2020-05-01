@@ -47,9 +47,13 @@ export const logout = () => {
 
 export const checkAuthTimeout = (expirationTime) => {
   return (dispatch) => {
-    setTimeout(() => {
+    const timer = setTimeout(() => {
       dispatch(logout());
     }, expirationTime * 1000);
+    dispatch({
+      type: actionTypes.AUTH_SET_TIMER,
+      timer: timer,
+    });
   };
 };
 
@@ -84,7 +88,12 @@ export const login = (username, password) => {
         if (err.response === undefined) {
           dispatch(authFail("Unable to communicate with the server."));
         } else {
-          dispatch(authFail(err.response.data.non_field_errors[0]));
+          console.log(err.response);
+          if (err.response.data.hasOwnProperty("non_field_errors")) {
+            dispatch(authFail(err.response.data.non_field_errors[0]));
+          } else {
+            dispatch(authFail(err.response.statusText));
+          }
         }
       });
   };

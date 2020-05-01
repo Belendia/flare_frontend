@@ -11,7 +11,7 @@ import "react-perfect-scrollbar/dist/css/styles.css";
 import "./assets/scss/index.scss";
 import validators from "./common/validators";
 import Routes from "./Routes";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { authCheckState as onTryAutoSignIn } from "./store/actions";
 
 Chart.helpers.extend(Chart.elements.Rectangle.prototype, {
@@ -25,9 +25,14 @@ validate.validators = {
 
 function App() {
   const dispatch = useDispatch();
+  const { timer } = useSelector((state) => ({
+    timer: state.security.timer,
+  }));
+
   useEffect(() => {
     // used to restore session when user refresh the page without logging out.
     dispatch(onTryAutoSignIn());
+    return () => clearTimeout(timer);
   }, [dispatch]);
 
   return (
