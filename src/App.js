@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import "./App.css";
 import { BrowserRouter as Router } from "react-router-dom";
 import { Chart } from "react-chartjs-2";
@@ -13,6 +13,7 @@ import validators from "./common/validators";
 import Routes from "./Routes";
 import { useDispatch, useSelector } from "react-redux";
 import { authCheckState as onTryAutoSignIn } from "./store/actions";
+import * as Constants from "./utils/constants";
 
 Chart.helpers.extend(Chart.elements.Rectangle.prototype, {
   draw: chartjs.draw,
@@ -24,6 +25,7 @@ validate.validators = {
 };
 
 function App() {
+  const ws = useRef(null);
   const dispatch = useDispatch();
   const { timer } = useSelector((state) => ({
     timer: state.security.timer,
@@ -34,6 +36,21 @@ function App() {
     dispatch(onTryAutoSignIn());
     return () => clearTimeout(timer);
   }, [dispatch]);
+
+  useEffect(() => {
+    ws.current = new WebSocket(`ws://${Constants.SERVER_LOCATION}/ws/message/`);
+    ws.current.onopen = () => console.log("ws opened");
+    ws.current.onclose = () => console.log("ws closed");
+
+    ws.current.onmessage = (e) => {
+      //const message = JSON.parse(e.data);
+      console.log(e.data);
+    };
+
+    return () => {
+      ws.current.close();
+    };
+  }, []);
 
   return (
     <ThemeProvider theme={theme}>
