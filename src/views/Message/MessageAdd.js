@@ -34,6 +34,7 @@ const useStyles = makeStyles((theme) => ({
 
 const validationSchema = yup.object({
   content: yup.string().required(),
+  channels: yup.string().required(),
   languages: yup.string().required(),
 });
 
@@ -43,9 +44,10 @@ const MessageAdd = (props) => {
   const classes = useStyles();
   const history = useHistory();
   const dispatch = useDispatch();
-  const { error, lookup } = useSelector((state) => ({
+  const { error, channelLookup, languageLookup } = useSelector((state) => ({
     error: state.message.error,
-    lookup: state.language.lookup,
+    channelLookup: state.channel.lookup,
+    languageLookup: state.language.lookup,
   }));
   const [showError, setShowError] = useState(false);
 
@@ -94,13 +96,14 @@ const MessageAdd = (props) => {
                     <Field
                       name="channels"
                       component={AutocompleteField}
-                      options={lookup}
+                      options={channelLookup}
                       multiple
                       getOptionLabel={(option) => option.label}
                       renderTags={(val, getChannelProps) =>
                         val.map((option, index) => (
                           <Chip
                             label={option.label}
+                            variant="outlined"
                             {...getChannelProps({ index })}
                           />
                         ))
@@ -117,13 +120,14 @@ const MessageAdd = (props) => {
                     <Field
                       name="languages"
                       component={AutocompleteField}
-                      options={lookup}
+                      options={languageLookup}
                       multiple
                       getOptionLabel={(option) => option.label}
                       renderTags={(val, getLangProps) =>
                         val.map((option, index) => (
                           <Chip
                             label={option.label}
+                            variant="outlined"
                             {...getLangProps({ index })}
                           />
                         ))

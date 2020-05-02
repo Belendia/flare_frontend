@@ -11,6 +11,7 @@ import securityReducer from "./store/reducers/securityReducer";
 import languageReducer from "./store/reducers/languageReducer";
 import subscriberReducer from "./store/reducers/subscriberReducer";
 import messageReducer from "./store/reducers/messageReducer";
+import channelReducer from "./store/reducers/channelReducer";
 
 const composeEnhancers =
   (process.env.NODE_ENV === "development"
@@ -22,6 +23,7 @@ const rootReducer = combineReducers({
   language: languageReducer,
   subscriber: subscriberReducer,
   message: messageReducer,
+  channel: channelReducer,
 });
 
 const store = createStore(

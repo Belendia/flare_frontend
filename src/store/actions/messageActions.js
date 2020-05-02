@@ -1,8 +1,9 @@
 import * as actionTypes from "./actionTypes";
-import axios from "../../utils/axiosFlare";
+import axios from "../../helpers/axiosFlare";
 import mapResponseErrors from "../../utils/mapResponseErrors";
 import { logout } from "./securityActions";
 import { fetchLanguagesLookup } from "./languageActions";
+import { fetchChannelsLookup } from "./channelActions";
 
 export const fetchMessagesSuccess = (messages, count) => {
   return {
@@ -33,6 +34,7 @@ export const fetchMessages = (limit, offset, searchTerm) => {
       .get(`/messages/?limit=${limit}&offset=${offset}&search=${searchTerm}`)
       .then((res) => {
         dispatch(fetchLanguagesLookup());
+        dispatch(fetchChannelsLookup());
 
         const messages = [];
         const count = res.data.count;
@@ -79,12 +81,11 @@ export const addMessage = (msg, history, errorCallback) => {
     const channels = [];
     const languages = [];
 
+    // Restructure array of object into array of values
     msg.channels.forEach((c, index) => channels.push(c.value));
-    let message = { ...msg, channels };
-
     msg.languages.forEach((lang, index) => languages.push(lang.value));
-    message = { ...msg, languages };
-    console.log(JSON.stringify(message));
+    const message = { ...msg, channels, languages };
+
     axios
       .post("/messages/", message)
       .then((res) => {

@@ -35,14 +35,16 @@ const MessageList = () => {
     messages,
     count,
     saveSuccess,
-    loadingLookup,
+    loadingLanguageLookup,
+    loadingChannelLookup,
   } = useSelector((state) => ({
     error: state.message.error,
     loadingMessages: state.message.loadingMessages,
     messages: state.message.data,
     count: state.message.count,
     saveSuccess: state.message.saveSuccess,
-    loadingLookup: state.language.loadingLookup,
+    loadingLanguageLookup: state.language.loadingLookup,
+    loadingChannelLookup: state.channel.loadingLookup,
   }));
 
   const handleClose = (event, reason) => {
@@ -71,7 +73,7 @@ const MessageList = () => {
         <Alert severity="error">{error}</Alert>
       </Box>
     );
-  } else if (loadingMessages || loadingLookup) {
+  } else if (loadingMessages || loadingLanguageLookup || loadingChannelLookup) {
     content = (
       <Box
         display="flex"

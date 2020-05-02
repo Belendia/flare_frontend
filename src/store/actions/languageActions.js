@@ -1,5 +1,5 @@
 import * as actionTypes from "./actionTypes";
-import axios from "../../utils/axiosFlare";
+import axios from "../../helpers/axiosFlare";
 import mapResponseErrors from "../../utils/mapResponseErrors";
 import { logout } from "./securityActions";
 

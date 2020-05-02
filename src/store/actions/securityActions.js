@@ -1,5 +1,5 @@
 import * as actionTypes from "./actionTypes";
-import axios from "../../utils/axiosFlare";
+import axios from "../../helpers/axiosFlare";
 import * as Constants from "../../utils/constants";
 import setToken from "../../utils/setToken";
 import cleanLocalStorage from "../../utils/cleanLocalStorage";

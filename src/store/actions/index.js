@@ -8,6 +8,7 @@ export {
   deleteLanguage,
   fetchLanguagesLookup,
 } from "./languageActions";
+
 export {
   fetchSubscribers,
   addSubscriber,
@@ -16,9 +17,12 @@ export {
   editSubscriber,
   deleteSubscriber,
 } from "./subscriberActions";
+
 export {
   fetchMessages,
   addMessage,
   resetSaveMessageSuccess,
   changeMessageStatus,
 } from "./messageActions";
+
+export { fetchChannelsLookup } from "./channelActions";
