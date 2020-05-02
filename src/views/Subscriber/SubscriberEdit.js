@@ -123,13 +123,13 @@ const SubscriberEdit = (props) => {
                   <Grid item md={12} xs={12}>
                     <Field
                       name="language"
-                      variant="outlined"
                       label="Language"
+                      variant="outlined"
                       as={SelectField}
                     >
-                      {Object.keys(lookup).map((key) => (
-                        <MenuItem key={key} value={key}>
-                          {lookup[key]}
+                      {lookup.map((l) => (
+                        <MenuItem key={l.value} value={l.value}>
+                          {l.label}
                         </MenuItem>
                       ))}
                     </Field>

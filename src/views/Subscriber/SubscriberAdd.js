@@ -108,9 +108,9 @@ const SubscriberAdd = (props) => {
                       label="Language"
                       as={SelectField}
                     >
-                      {Object.keys(lookup).map((key) => (
-                        <MenuItem key={key} value={key}>
-                          {lookup[key]}
+                      {lookup.map((l) => (
+                        <MenuItem key={l.value} value={l.value}>
+                          {l.label}
                         </MenuItem>
                       ))}
                     </Field>

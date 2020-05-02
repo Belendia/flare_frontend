@@ -3,7 +3,7 @@ import clsx from "clsx";
 import PropTypes from "prop-types";
 import PerfectScrollbar from "react-perfect-scrollbar";
 import { useHistory } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { makeStyles } from "@material-ui/styles";
 import {
   Button,
@@ -49,10 +49,6 @@ const SubscribersTable = (props) => {
   const [open, setDialogOpen] = useState(false);
   const [selectedId, setSelectedId] = useState();
 
-  const { lookup } = useSelector((state) => ({
-    lookup: state.language.lookup,
-  }));
-
   const handleDialogOpen = (id) => {
     setSelectedId(id);
     setDialogOpen(true);
@@ -95,7 +91,7 @@ const SubscribersTable = (props) => {
                   {props.subscribers.map((subs) => (
                     <SubscriberRow
                       subscriber={subs}
-                      language={lookup[subs.language]}
+                      language={subs.language}
                       key={subs.id}
                       openDialog={(id) => handleDialogOpen(id)}
                     />

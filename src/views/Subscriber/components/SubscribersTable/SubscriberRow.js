@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { TableCell, TableRow, Typography, IconButton } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import { useHistory } from "react-router-dom";
+import { useSelector } from "react-redux";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -18,11 +19,24 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const SubscriberRow = (props) => {
-  const { subscriber, language } = props;
-
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = useState(null);
   let history = useHistory();
+
+  const { lookup } = useSelector((state) => ({
+    lookup: state.language.lookup,
+  }));
+
+  const { language } = props.subscriber;
+  const languages = [];
+
+  if (language) {
+    lookup.forEach((l) => {
+      if (language === l.value) {
+        languages.push(<span key={l.value}>{l.label}</span>);
+      }
+    });
+  }
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -38,20 +52,20 @@ const SubscriberRow = (props) => {
   };
 
   const handleEdit = () => {
-    history.push(`/subscriber/edit/${subscriber.id}`);
+    history.push(`/subscriber/edit/${props.subscriber.id}`);
   };
 
   return (
     <TableRow
       className={classes.tableRow}
       hover
-      key={subscriber.id}
+      key={props.subscriber.id}
       size="small"
     >
       <TableCell>
-        <Typography variant="body1">{subscriber.phone_number}</Typography>
+        <Typography variant="body1">{props.subscriber.phone_number}</Typography>
       </TableCell>
-      <TableCell>{language}</TableCell>
+      <TableCell>{languages}</TableCell>
       <TableCell>
         <IconButton
           aria-label="more"
@@ -75,7 +89,7 @@ const SubscriberRow = (props) => {
             Edit
           </MenuItem>
 
-          <MenuItem onClick={() => handleDelete(subscriber.id)}>
+          <MenuItem onClick={() => handleDelete(props.subscriber.id)}>
             <ListItemIcon className={classes.menu}>
               <DeleteIcon fontSize="small" />
             </ListItemIcon>
@@ -90,7 +104,6 @@ const SubscriberRow = (props) => {
 SubscriberRow.propTypes = {
   subscriber: PropTypes.object.isRequired,
   openDialog: PropTypes.func.isRequired,
-  language: PropTypes.string.isRequired,
 };
 
 export default SubscriberRow;
