@@ -47,14 +47,13 @@ function App() {
 
     ws.current.onmessage = (e) => {
       const message = JSON.parse(e.data);
-      console.log(e.data);
       dispatch(changeMessageStatus(message));
     };
 
     return () => {
       ws.current.close();
     };
-  }, []);
+  }, [dispatch]);
 
   return (
     <ThemeProvider theme={theme}>

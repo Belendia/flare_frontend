@@ -1,7 +1,14 @@
 import React from "react";
-import { TableCell, TableRow, Typography, Chip } from "@material-ui/core";
+import {
+  TableCell,
+  TableRow,
+  Typography,
+  Chip,
+  Avatar,
+} from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import { useSelector } from "react-redux";
+import { getInitials } from "../../../../helpers";
 import PropTypes from "prop-types";
 
 const useStyles = makeStyles((theme) => ({
@@ -23,6 +30,13 @@ const useStyles = makeStyles((theme) => ({
   red: {
     borderColor: "#e53935",
     color: "#e53935",
+  },
+  nameContainer: {
+    display: "flex",
+    alignItems: "flex-start",
+  },
+  avatar: {
+    marginRight: theme.spacing(2),
   },
 }));
 
@@ -72,6 +86,9 @@ const MessageRow = (props) => {
     <TableRow className={classes.tableRow} hover key={message.id} size="small">
       <TableCell>
         <div className={classes.nameContainer}>
+          <Avatar className={classes.avatar}>
+            {getInitials(message.content)}
+          </Avatar>
           <Typography variant="body1">{message.content}</Typography>
         </div>
       </TableCell>
