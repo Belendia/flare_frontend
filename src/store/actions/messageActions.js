@@ -76,10 +76,15 @@ export const updateMessageFail = (error) => {
 
 export const addMessage = (msg, history, errorCallback) => {
   return (dispatch) => {
+    const channels = [];
     const languages = [];
-    msg.languages.forEach((lang, index) => languages.push(lang.value));
-    const message = { ...msg, languages };
 
+    msg.channels.forEach((c, index) => channels.push(c.value));
+    let message = { ...msg, channels };
+
+    msg.languages.forEach((lang, index) => languages.push(lang.value));
+    message = { ...msg, languages };
+    console.log(JSON.stringify(message));
     axios
       .post("/messages/", message)
       .then((res) => {
@@ -93,89 +98,6 @@ export const addMessage = (msg, history, errorCallback) => {
         } else {
           const errors = mapResponseErrors(err.response.data);
           errorCallback(errors);
-        }
-      });
-  };
-};
-
-export const fetchMessageSuccess = (message) => {
-  return {
-    type: actionTypes.FETCH_MESSAGE_SUCCESS,
-    message: message,
-  };
-};
-
-export const fetchMessageStart = () => {
-  return {
-    type: actionTypes.FETCH_MESSAGE_START,
-  };
-};
-
-export const fetchMessage = (msgId, history) => {
-  return (dispatch) => {
-    dispatch(fetchMessageStart());
-
-    axios
-      .get(`/messages/${msgId}`)
-      .then((res) => {
-        const message = {
-          code: res.data.code,
-          name: res.data.name,
-        };
-
-        dispatch(fetchMessageSuccess(message));
-      })
-      .catch((err) => {
-        if (err.response === undefined) {
-          dispatch(fetchMessagesFail(err.message));
-        } else {
-          dispatch(fetchMessagesFail(err.response.data.message));
-        }
-        history.push("/message/");
-      });
-  };
-};
-
-export const editMessage = (msg, msgId, history, errorCallback) => {
-  return (dispatch) => {
-    axios
-      .put(`/messages/${msgId}/`, msg)
-      .then((res) => {
-        dispatch(saveDelMessageSuccess());
-        history.push("/message");
-      })
-      .catch((err) => {
-        if (err.response === undefined) {
-          dispatch(updateMessageFail(err.message));
-          errorCallback(err.message);
-        } else {
-          const errors = mapResponseErrors(err.response.data);
-          errorCallback(errors);
-        }
-      });
-  };
-};
-
-export const removeMessageFromList = (msgId) => {
-  return {
-    type: actionTypes.REMOVE_MESSAGE,
-    msgId: msgId,
-  };
-};
-
-export const deleteMessage = (msgId, history) => {
-  return (dispatch) => {
-    axios
-      .delete(`/messages/${msgId}/`)
-      .then((res) => {
-        dispatch(saveDelMessageSuccess());
-        dispatch(removeMessageFromList(msgId));
-      })
-      .catch((err) => {
-        if (err.response === undefined) {
-          dispatch(fetchMessagesFail(err.message));
-        } else {
-          dispatch(fetchMessagesFail(err.response.data.message));
         }
       });
   };

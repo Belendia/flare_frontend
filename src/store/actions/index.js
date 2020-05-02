@@ -20,8 +20,5 @@ export {
   fetchMessages,
   addMessage,
   resetSaveMessageSuccess,
-  fetchMessage,
-  editMessage,
-  deleteMessage,
   changeMessageStatus,
 } from "./messageActions";

@@ -1,12 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import clsx from "clsx";
 import PropTypes from "prop-types";
 import PerfectScrollbar from "react-perfect-scrollbar";
-import { useHistory } from "react-router-dom";
-import { useDispatch } from "react-redux";
 import { makeStyles } from "@material-ui/styles";
 import {
-  Button,
   Card,
   CardActions,
   CardContent,
@@ -16,15 +13,9 @@ import {
   TableHead,
   TableRow,
   TablePagination,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
 } from "@material-ui/core";
 
 import MessageRow from "./MessageRow";
-import { deleteMessage } from "../../../../store/actions";
 
 const useStyles = makeStyles((theme) => ({
   root: {},
@@ -43,25 +34,6 @@ const MessagesTable = (props) => {
   //const { className, messages, count, ...rest } = props;
 
   const classes = useStyles();
-  const dispatch = useDispatch();
-  let history = useHistory();
-
-  const [open, setDialogOpen] = useState(false);
-  const [selectedId, setSelectedId] = useState();
-
-  const handleDialogOpen = (id) => {
-    setSelectedId(id);
-    setDialogOpen(true);
-  };
-
-  const handleYesDialogButton = () => {
-    setDialogOpen(false);
-    dispatch(deleteMessage(selectedId, history));
-  };
-
-  const handleDialogClose = () => {
-    setDialogOpen(false);
-  };
 
   const handlePageChange = (event, page) => {
     props.setoffset(page);
@@ -82,16 +54,13 @@ const MessagesTable = (props) => {
                   <TableRow>
                     <TableCell style={{ minWidth: 200 }}>Message</TableCell>
                     <TableCell>Languages</TableCell>
+                    <TableCell>Channels</TableCell>
                     <TableCell>Status</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
                   {props.messages.map((msg) => (
-                    <MessageRow
-                      message={msg}
-                      key={msg.id}
-                      openDialog={(id) => handleDialogOpen(id)}
-                    />
+                    <MessageRow message={msg} key={msg.id} />
                   ))}
                 </TableBody>
               </Table>
@@ -110,28 +79,6 @@ const MessagesTable = (props) => {
           />
         </CardActions>
       </Card>
-
-      <Dialog
-        open={open}
-        onClose={handleDialogClose}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <DialogTitle id="alert-dialog-title">{"Delete message?"}</DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            Are you sure you want to remove this message
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleDialogClose} color="primary">
-            No
-          </Button>
-          <Button onClick={handleYesDialogButton} color="primary" autoFocus>
-            Yes
-          </Button>
-        </DialogActions>
-      </Dialog>
     </React.Fragment>
   );
 };

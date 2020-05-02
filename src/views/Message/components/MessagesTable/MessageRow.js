@@ -47,6 +47,7 @@ const MessageRow = (props) => {
         <Typography variant="body1">{message.content}</Typography>
       </TableCell>
       <TableCell>{message.languages}</TableCell>
+      <TableCell>{message.channels}</TableCell>
       <TableCell>
         {message.status && <span className={c}>{message.status}</span>}
       </TableCell>

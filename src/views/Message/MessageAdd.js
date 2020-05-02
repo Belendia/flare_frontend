@@ -63,6 +63,7 @@ const MessageAdd = (props) => {
         validateOnChange={true}
         initialValues={{
           content: "",
+          channels: [],
           languages: [],
         }}
         validationSchema={validationSchema}
@@ -85,10 +86,33 @@ const MessageAdd = (props) => {
         {({ values, errors, isSubmitting }) => (
           <Card {...rest} className={clsx(classes.root, className)}>
             <Form autoComplete="off">
-              <CardHeader subheader="Add a message" title="Message" />
+              <CardHeader subheader="Send a message" title="Message" />
               <Divider />
               <CardContent>
                 <Grid container spacing={3}>
+                  <Grid item md={12} xs={12}>
+                    <Field
+                      name="channels"
+                      component={AutocompleteField}
+                      options={lookup}
+                      multiple
+                      getOptionLabel={(option) => option.label}
+                      renderTags={(val, getChannelProps) =>
+                        val.map((option, index) => (
+                          <Chip
+                            label={option.label}
+                            {...getChannelProps({ index })}
+                          />
+                        ))
+                      }
+                      textFieldProps={{
+                        fullWidth: true,
+                        margin: "normal",
+                        variant: "outlined",
+                        label: "Channels",
+                      }}
+                    />
+                  </Grid>
                   <Grid item md={12} xs={12}>
                     <Field
                       name="languages"
@@ -96,11 +120,11 @@ const MessageAdd = (props) => {
                       options={lookup}
                       multiple
                       getOptionLabel={(option) => option.label}
-                      renderTags={(tagValue, getTagProps) =>
-                        tagValue.map((option, index) => (
+                      renderTags={(val, getLangProps) =>
+                        val.map((option, index) => (
                           <Chip
                             label={option.label}
-                            {...getTagProps({ index })}
+                            {...getLangProps({ index })}
                           />
                         ))
                       }
