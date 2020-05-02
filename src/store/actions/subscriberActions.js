@@ -1,6 +1,6 @@
 import * as actionTypes from "./actionTypes";
 import axios from "../../helpers/axiosFlare";
-import mapResponseErrors from "../../utils/mapResponseErrors";
+import mapResponseErrors from "../../helpers/mapResponseErrors";
 import { fetchLanguagesLookup } from "./languageActions";
 
 export const fetchSubscribersSuccess = (subscribers, count) => {

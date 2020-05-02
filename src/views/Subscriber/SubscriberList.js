@@ -10,7 +10,7 @@ import {
   fetchSubscribers,
   resetSaveSubscriberSuccess,
 } from "../../store/actions";
-import * as Constants from "../../utils/constants";
+import * as Constants from "../../helpers/constants";
 
 const useStyles = makeStyles((theme) => ({
   root: {

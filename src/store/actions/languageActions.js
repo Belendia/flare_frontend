@@ -1,6 +1,6 @@
 import * as actionTypes from "./actionTypes";
 import axios from "../../helpers/axiosFlare";
-import mapResponseErrors from "../../utils/mapResponseErrors";
+import mapResponseErrors from "../../helpers/mapResponseErrors";
 import { logout } from "./securityActions";
 
 export const fetchLanguagesSuccess = (languages, count) => {

@@ -1,4 +1,4 @@
-import axios from "../helpers/axiosFlare";
+import axios from "./axiosFlare";
 
 const setToken = (token) => {
   if (token) {

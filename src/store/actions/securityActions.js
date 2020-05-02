@@ -1,8 +1,8 @@
 import * as actionTypes from "./actionTypes";
 import axios from "../../helpers/axiosFlare";
-import * as Constants from "../../utils/constants";
-import setToken from "../../utils/setToken";
-import cleanLocalStorage from "../../utils/cleanLocalStorage";
+import * as Constants from "../../helpers/constants";
+import setToken from "../../helpers/setToken";
+import cleanLocalStorage from "../../helpers/cleanLocalStorage";
 
 export const authStart = () => {
   return {
