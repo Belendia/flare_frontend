@@ -6,9 +6,9 @@ import {
   Chip,
   Avatar,
 } from "@material-ui/core";
+import MessageIcon from "@material-ui/icons/Message";
 import { makeStyles } from "@material-ui/styles";
 import { useSelector } from "react-redux";
-import { getInitials } from "../../../../helpers";
 import PropTypes from "prop-types";
 
 const useStyles = makeStyles((theme) => ({
@@ -31,12 +31,19 @@ const useStyles = makeStyles((theme) => ({
     borderColor: "#e53935",
     color: "#e53935",
   },
+
   nameContainer: {
     display: "flex",
     alignItems: "flex-start",
   },
+
   avatar: {
     marginRight: theme.spacing(2),
+  },
+
+  white: {
+    borderColor: "#fff",
+    color: "#fff",
   },
 }));
 
@@ -44,9 +51,9 @@ const MessageRow = (props) => {
   const { message } = props;
   const classes = useStyles();
 
-  const { languageLookup, channelLookup } = useSelector((state) => ({
-    languageLookup: state.language.lookup,
+  const { channelLookup, languageLookup } = useSelector((state) => ({
     channelLookup: state.channel.lookup,
+    languageLookup: state.language.lookup,
   }));
 
   let c = classes.blue;
@@ -54,19 +61,6 @@ const MessageRow = (props) => {
     c = classes.orange;
   } else if (message.status === "error") {
     c = classes.red;
-  }
-
-  const { languages } = props.message;
-  const langs = [];
-
-  if (languages) {
-    languages.forEach((lang) => {
-      languageLookup.forEach((l) => {
-        if (lang === l.value) {
-          langs.push(<div key={l.value}>{l.label}</div>);
-        }
-      });
-    });
   }
 
   const { channels } = props.message;
@@ -82,18 +76,31 @@ const MessageRow = (props) => {
     });
   }
 
+  const { languages } = props.message;
+  const langs = [];
+
+  if (languages) {
+    languages.forEach((lang) => {
+      languageLookup.forEach((l) => {
+        if (lang === l.value) {
+          langs.push(<div key={l.value}>{l.label}</div>);
+        }
+      });
+    });
+  }
+
   return (
     <TableRow className={classes.tableRow} hover key={message.id} size="small">
       <TableCell>
         <div className={classes.nameContainer}>
           <Avatar className={classes.avatar}>
-            {getInitials(message.content)}
+            <MessageIcon />
           </Avatar>
           <Typography variant="body1">{message.content}</Typography>
         </div>
       </TableCell>
-      <TableCell>{langs}</TableCell>
       <TableCell>{chnls}</TableCell>
+      <TableCell>{langs}</TableCell>
       <TableCell>
         {message.status && (
           <Chip label={message.status} variant="outlined" className={c} />
