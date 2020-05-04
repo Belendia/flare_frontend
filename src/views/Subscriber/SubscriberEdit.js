@@ -34,7 +34,13 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const validationSchema = yup.object({
-  phone_number: yup.number().required(),
+  phone_number: yup
+    .string()
+    .required()
+    .matches(/^[+]{1}[1-9]{1}\d{2}-{1}\d{3}-{1}\d{6}$/, {
+      message: "Incorrect phone number format",
+      excludeEmptyString: true,
+    }),
   language: yup.number().required(),
 });
 
