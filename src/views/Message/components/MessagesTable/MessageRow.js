@@ -6,6 +6,7 @@ import {
   Chip,
   Avatar,
 } from "@material-ui/core";
+import InfoIcon from "@material-ui/icons/Info";
 import MessageIcon from "@material-ui/icons/Message";
 import { makeStyles } from "@material-ui/styles";
 import { useSelector } from "react-redux";
@@ -103,7 +104,15 @@ const MessageRow = (props) => {
       <TableCell>{langs}</TableCell>
       <TableCell>
         {message.status && (
-          <Chip label={message.status} variant="outlined" className={c} />
+          <Chip
+            icon={<InfoIcon className={c} />}
+            label="Primary clickable"
+            clickable
+            label={message.status}
+            variant="outlined"
+            className={c}
+            onClick={() => props.openDialog(message.status_detail)}
+          />
         )}
       </TableCell>
     </TableRow>
@@ -112,6 +121,7 @@ const MessageRow = (props) => {
 
 MessageRow.propTypes = {
   message: PropTypes.object.isRequired,
+  openDialog: PropTypes.func.isRequired,
 };
 
 export default MessageRow;
