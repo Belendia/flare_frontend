@@ -79,10 +79,11 @@ export const updateSubscriberFail = (error) => {
 export const addSubscriber = (subs, history, errorCallback) => {
   return (dispatch) => {
     //remove - from phone number
-    subs.phone_number = subs.phone_number.replace(/-/g, "");
+    const subsCopy = { ...subs };
+    subsCopy.phone_number = subsCopy.phone_number.replace(/-/g, "");
 
     axios
-      .post("/subscribers/", subs)
+      .post("/subscribers/", subsCopy)
       .then((res) => {
         dispatch(saveDelSubscriberSuccess());
         history.push("/subscriber");
@@ -93,7 +94,6 @@ export const addSubscriber = (subs, history, errorCallback) => {
           errorCallback(err.message);
         } else {
           const errors = mapResponseErrors(err.response.data);
-          console.log(errors);
           errorCallback(errors);
         }
       });
@@ -144,10 +144,11 @@ export const fetchSubscriber = (subsId, history) => {
 export const editSubscriber = (subs, subsId, history, errorCallback) => {
   return (dispatch) => {
     //remove - from phone number
-    subs.phone_number = subs.phone_number.replace(/-/g, "");
+    const subsCopy = { ...subs };
+    subsCopy.phone_number = subsCopy.phone_number.replace(/-/g, "");
 
     axios
-      .put(`/subscribers/${subsId}/`, subs)
+      .put(`/subscribers/${subsId}/`, subsCopy)
       .then((res) => {
         dispatch(saveDelSubscriberSuccess());
         history.push("/subscriber");
