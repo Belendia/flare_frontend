@@ -16,8 +16,7 @@ import {
   MenuItem,
 } from "@material-ui/core";
 import Alert from "@material-ui/lab/Alert";
-import { TextField } from "../../components";
-import { SelectField } from "../../components";
+import { MaskedInputField, SelectField } from "../../components";
 import { Formik, Field, Form } from "formik";
 import * as yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
@@ -34,12 +33,20 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const validationSchema = yup.object({
-  phone_number: yup.number().required(),
+  phone_number: yup
+    .string()
+    .required()
+    .matches(/^[+]{1}[1-9]{1}\d{2}-{1}\d{3}-{1}\d{6}$/, {
+      message: "Incorrect phone number format",
+      excludeEmptyString: true,
+    }),
   language: yup.number().required(),
 });
 
 const SubscriberAdd = (props) => {
   const { className, staticContext, ...rest } = props;
+
+  const phoneMask = "+999-999-999999";
 
   const classes = useStyles();
   const history = useHistory();
@@ -92,13 +99,13 @@ const SubscriberAdd = (props) => {
                 <Grid container spacing={3}>
                   <Grid item md={12} xs={12}>
                     <Field
+                      mask={phoneMask}
                       placeholder="Phone Number"
                       name="phone_number"
+                      label="Phone Number"
                       type="input"
                       variant="outlined"
-                      label="Phone Number"
-                      margin="dense"
-                      as={TextField}
+                      as={MaskedInputField}
                     />
                   </Grid>
                   <Grid item md={12} xs={12}>

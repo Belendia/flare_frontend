@@ -36,9 +36,14 @@ export const fetchSubscribers = (limit, offset, searchTerm) => {
 
         dispatch(fetchLanguagesLookup());
 
-        res.data.results.forEach((subs, index) =>
-          subscribers.push({ ...subs })
-        );
+        res.data.results.forEach((subs, index) => {
+          // format phone number before pushing it to subscribers array
+          subs.phone_number = subs.phone_number.replace(
+            /([+]{1}\d{3})(\d{3})(\d{6})/,
+            "$1-$2-$3"
+          );
+          subscribers.push({ ...subs });
+        });
 
         dispatch(fetchSubscribersSuccess(subscribers, count));
       })
@@ -73,6 +78,9 @@ export const updateSubscriberFail = (error) => {
 
 export const addSubscriber = (subs, history, errorCallback) => {
   return (dispatch) => {
+    //remove - from phone number
+    subs.phone_number = subs.phone_number.replace(/-/g, "");
+
     axios
       .post("/subscribers/", subs)
       .then((res) => {
@@ -113,7 +121,10 @@ export const fetchSubscriber = (subsId, history) => {
       .get(`/subscribers/${subsId}`)
       .then((res) => {
         const subscriber = {
-          phone_number: res.data.phone_number,
+          phone_number: res.data.phone_number.replace(
+            /([+]{1}\d{3})(\d{3})(\d{6})/,
+            "$1-$2-$3"
+          ),
           language: res.data.language,
         };
 
@@ -132,6 +143,9 @@ export const fetchSubscriber = (subsId, history) => {
 
 export const editSubscriber = (subs, subsId, history, errorCallback) => {
   return (dispatch) => {
+    //remove - from phone number
+    subs.phone_number = subs.phone_number.replace(/-/g, "");
+
     axios
       .put(`/subscribers/${subsId}/`, subs)
       .then((res) => {

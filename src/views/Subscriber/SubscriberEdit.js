@@ -17,8 +17,7 @@ import {
   MenuItem,
 } from "@material-ui/core";
 import Alert from "@material-ui/lab/Alert";
-import { TextField } from "../../components";
-import { SelectField } from "../../components";
+import { MaskedInputField, SelectField } from "../../components";
 import { Formik, Field, Form } from "formik";
 import * as yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
@@ -46,6 +45,7 @@ const SubscriberEdit = (props) => {
   let history = useHistory();
   const dispatch = useDispatch();
   const [showError, setShowError] = useState(false);
+  const phoneMask = "+999-999-999999";
 
   //redux
   const { subscriber, loadingSubscribers, error, lookup } = useSelector(
@@ -111,13 +111,13 @@ const SubscriberEdit = (props) => {
                 <Grid container spacing={3}>
                   <Grid item md={12} xs={12}>
                     <Field
+                      mask={phoneMask}
                       placeholder="Phone Number"
                       name="phone_number"
+                      label="Phone Number"
                       type="input"
                       variant="outlined"
-                      label="Phone Number"
-                      margin="dense"
-                      as={TextField}
+                      as={MaskedInputField}
                     />
                   </Grid>
                   <Grid item md={12} xs={12}>
