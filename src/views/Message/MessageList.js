@@ -102,7 +102,12 @@ const MessageList = () => {
   }
   return (
     <div className={classes.root}>
-      <MessagesToolbar onSearchTermChange={handleSearchTermChange} />
+      <MessagesToolbar
+        onSearchTermChange={handleSearchTermChange}
+        disableButtons={
+          loadingMessages || loadingLanguageLookup || loadingChannelLookup
+        }
+      />
       {content}
       <Snackbar
         open={saveSuccess}

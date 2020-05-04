@@ -98,7 +98,10 @@ const LanguageList = () => {
   }
   return (
     <div className={classes.root}>
-      <LanguagesToolbar onSearchTermChange={handleSearchTermChange} />
+      <LanguagesToolbar
+        onSearchTermChange={handleSearchTermChange}
+        disableButtons={loadingLanguages}
+      />
       {content}
       <Snackbar
         open={saveSuccess}

@@ -158,7 +158,12 @@ const MessageAdd = (props) => {
               </CardContent>
               <Divider />
               <CardActions>
-                <Button color="primary" variant="contained" type="submit">
+                <Button
+                  color="primary"
+                  variant="contained"
+                  type="submit"
+                  disabled={isSubmitting}
+                >
                   {isSubmitting && (
                     <CircularProgress
                       variant="indeterminate"
@@ -170,7 +175,12 @@ const MessageAdd = (props) => {
                   )}
                   Send
                 </Button>
-                <Button color="primary" variant="text" onClick={handleCancel}>
+                <Button
+                  color="primary"
+                  variant="text"
+                  onClick={handleCancel}
+                  disabled={isSubmitting}
+                >
                   Cancel
                 </Button>
               </CardActions>

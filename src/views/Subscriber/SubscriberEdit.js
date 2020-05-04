@@ -144,7 +144,12 @@ const SubscriberEdit = (props) => {
               </CardContent>
               <Divider />
               <CardActions>
-                <Button color="primary" variant="contained" type="submit">
+                <Button
+                  color="primary"
+                  variant="contained"
+                  type="submit"
+                  disabled={isSubmitting}
+                >
                   {isSubmitting && (
                     <CircularProgress
                       variant="indeterminate"
@@ -156,7 +161,12 @@ const SubscriberEdit = (props) => {
                   )}
                   Save
                 </Button>
-                <Button color="primary" variant="text" onClick={handleCancel}>
+                <Button
+                  color="primary"
+                  variant="text"
+                  onClick={handleCancel}
+                  disabled={isSubmitting}
+                >
                   Cancel
                 </Button>
               </CardActions>

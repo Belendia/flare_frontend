@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const MessagesToolbar = (props) => {
-  const { className, onSearchTermChange, ...rest } = props;
+  const { className, onSearchTermChange, disableButtons, ...rest } = props;
 
   const classes = useStyles();
   let history = useHistory();
@@ -57,8 +57,15 @@ const MessagesToolbar = (props) => {
     <div {...rest} className={clsx(classes.root, className)}>
       <div className={classes.row}>
         <span className={classes.spacer} />
-        <Button className={classes.exportButton}>Export</Button>
-        <Button color="primary" variant="contained" onClick={handleClick}>
+        <Button className={classes.exportButton} disabled={disableButtons}>
+          Export
+        </Button>
+        <Button
+          color="primary"
+          variant="contained"
+          onClick={handleClick}
+          disabled={disableButtons}
+        >
           New message
         </Button>
       </div>
@@ -68,6 +75,7 @@ const MessagesToolbar = (props) => {
           placeholder="Search message"
           onChange={onChange}
           onKeyPress={onKeyPress}
+          disabled={disableButtons}
         />
       </div>
     </div>
@@ -77,6 +85,7 @@ const MessagesToolbar = (props) => {
 MessagesToolbar.propTypes = {
   className: PropTypes.string,
   onSearchTermChange: PropTypes.func,
+  disableButtons: PropTypes.bool,
 };
 
 export default MessagesToolbar;
