@@ -49,7 +49,6 @@ const MessagesTable = (props) => {
   const [messageStatus, setMessageStatus] = useState();
 
   const handleDialogOpen = (messageStatus) => {
-    console.log(messageStatus);
     if (messageStatus !== undefined) {
       setMessageStatus(messageStatus);
       setOpen(true);
