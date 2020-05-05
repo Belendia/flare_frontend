@@ -1,4 +1,5 @@
 export { login, logout, authCheckState } from "./securityActions";
+
 export {
   fetchLanguages,
   addLanguage,
@@ -26,3 +27,12 @@ export {
 } from "./messageActions";
 
 export { fetchChannelsLookup } from "./channelActions";
+
+export {
+  fetchSurveys,
+  addSurvey,
+  resetSaveSurveySuccess,
+  fetchSurvey,
+  editSurvey,
+  deleteSurvey,
+} from "./languageActions";
