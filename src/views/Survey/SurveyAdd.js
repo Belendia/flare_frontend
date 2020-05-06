@@ -111,6 +111,7 @@ const SurveyAdd = (props) => {
                       value={values.journeys}
                       multiple={false}
                       component={DropzoneField}
+                      accept={"application/x-yaml"}
                       onChange={(file) => {
                         if (file) {
                           setFieldValue("journeys", file[0].name);

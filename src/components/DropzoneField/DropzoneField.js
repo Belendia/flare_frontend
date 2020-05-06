@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 const CustomDropzoneField = (props) => {
-  const { onChange, disabled, multiple, value } = props;
+  const { onChange, disabled, multiple, value, accept } = props;
   const { name } = props.field;
 
   const [field, meta] = useField(props);
@@ -42,6 +42,7 @@ const CustomDropzoneField = (props) => {
   const { getRootProps, getInputProps } = useDropzone({
     onDrop: (files) => onChange(files),
     multiple: multiple,
+    accept: accept,
   });
 
   const file = value;
