@@ -13,11 +13,9 @@ import {
   Button,
   CircularProgress,
   Snackbar,
-  IconButton,
 } from "@material-ui/core";
 import Alert from "@material-ui/lab/Alert";
-import AttachFileIcon from "@material-ui/icons/AttachFile";
-import { TextField } from "../../components";
+import { TextField, DropzoneField } from "../../components";
 import { Formik, Field, Form } from "formik";
 import * as yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
@@ -70,23 +68,10 @@ const SurveyAdd = (props) => {
         onSubmit={(data, { setSubmitting, setErrors }) => {
           setSubmitting(true);
 
-          // dispatch(
-          //   addSurvey(data, history, (err) => {
-          //     if (typeof err === "string") {
-          //       setShowError(true);
-          //     } else {
-          //       setErrors(err);
-          //     }
-
-          //     setSubmitting(false);
-          //   })
-          // );
-
           let formData = new FormData();
 
           formData.append("journeys", journey, journey.name);
           formData.append("title", data.title);
-          //formData.append("content", journey.content);
 
           dispatch(
             addSurvey(formData, history, (err) => {
@@ -119,34 +104,20 @@ const SurveyAdd = (props) => {
                       as={TextField}
                     />
                   </Grid>
+
                   <Grid item md={12} xs={12}>
-                    {errors.journeys && (
-                      <Alert variant="filled" severity="error">
-                        {errors.journeys}
-                      </Alert>
-                    )}
-                    <input
-                      accept="text/vnd.yaml"
-                      className={classes.input}
-                      id="journeys"
+                    <Field
                       name="journeys"
-                      type="file"
-                      style={{ display: "none" }}
-                      onChange={(e) => {
-                        e.persist();
-                        const file = e.target.files[0];
+                      value={values.journeys}
+                      multiple={false}
+                      component={DropzoneField}
+                      onChange={(file) => {
                         if (file) {
-                          setFieldValue("journeys", file.name);
-                          setJourney(file);
+                          setFieldValue("journeys", file[0].name);
+                          setJourney(file[0]);
                         }
                       }}
                     />
-                    <label htmlFor="journeys">
-                      <Button variant="contained" component="span" size="large">
-                        Upload File
-                      </Button>
-                      &nbsp;{values.journeys}
-                    </label>
                   </Grid>
                 </Grid>
               </CardContent>
