@@ -35,4 +35,4 @@ export {
   fetchSurvey,
   editSurvey,
   deleteSurvey,
-} from "./languageActions";
+} from "./surveyActions";
