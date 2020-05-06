@@ -16,6 +16,9 @@ import {
   SubscriberEdit as SubscriberEditView,
   MessageList as MessageListView,
   MessageAdd as MessageAddView,
+  SurveyList as SurveyListView,
+  SurveyAdd as SurveyAddView,
+  SurveyEdit as SurveyEditView,
 } from "./views";
 
 const Routes = () => {
@@ -76,6 +79,26 @@ const Routes = () => {
         layout={MainLayout}
         path="/message/add"
       />
+
+      <SecuredRouteWithLayout
+        component={SurveyListView}
+        exact
+        layout={MainLayout}
+        path="/survey"
+      />
+      <SecuredRouteWithLayout
+        component={SurveyAddView}
+        exact
+        layout={MainLayout}
+        path="/survey/add"
+      />
+      <SecuredRouteWithLayout
+        component={SurveyEditView}
+        exact
+        layout={MainLayout}
+        path="/survey/edit/:id"
+      />
+
       <RouteWithLayout
         component={SignInView}
         exact

@@ -77,6 +77,7 @@ export const addSurvey = (survey, history, errorCallback) => {
   return (dispatch) => {
     axios
       .post("/surveys/", survey)
+
       .then((res) => {
         dispatch(saveDelSurveySuccess());
         history.push("/survey");
