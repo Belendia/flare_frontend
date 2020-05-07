@@ -16,7 +16,7 @@ import {
   Box,
 } from "@material-ui/core";
 import Alert from "@material-ui/lab/Alert";
-import { TextField } from "../../components";
+import { TextField, DropzoneField } from "../../components";
 import { Formik, Field, Form } from "formik";
 import * as yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
@@ -33,8 +33,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const validationSchema = yup.object({
-  name: yup.string().required().max(10),
-  code: yup.string().required().max(4),
+  title: yup.string().required(),
+  journeys: yup.string().required(),
 });
 
 const SurveyEdit = (props) => {
@@ -44,6 +44,7 @@ const SurveyEdit = (props) => {
   let history = useHistory();
   const dispatch = useDispatch();
   const [showError, setShowError] = useState(false);
+  const [journey, setJourney] = useState(null);
 
   //redux
   const { survey, loadingSurvey, error } = useSelector((state) => ({
@@ -85,8 +86,15 @@ const SurveyEdit = (props) => {
         onSubmit={(data, { setSubmitting, setErrors }) => {
           setSubmitting(true);
 
+          let formData = new FormData();
+          if (journey) {
+            formData.append("journeys", journey, journey.name);
+          }
+
+          formData.append("title", data.title);
+
           dispatch(
-            editSurvey(data, props.match.params.id, history, (err) => {
+            editSurvey(formData, props.match.params.id, history, (err) => {
               if (typeof err === "string") {
                 setShowError(true);
               } else {
@@ -97,7 +105,7 @@ const SurveyEdit = (props) => {
           );
         }}
       >
-        {({ values, errors, isSubmitting }) => (
+        {({ values, errors, isSubmitting, setFieldValue }) => (
           <Card {...rest} className={clsx(classes.root, className)}>
             <Form autoComplete="off">
               <CardHeader subheader="Edit a survey" title="Survey" />
@@ -106,24 +114,28 @@ const SurveyEdit = (props) => {
                 <Grid container spacing={3}>
                   <Grid item md={12} xs={12}>
                     <Field
-                      placeholder="Name"
-                      name="name"
+                      placeholder="Title"
+                      name="title"
                       type="input"
                       variant="outlined"
-                      label="Name"
+                      label="Title"
                       margin="dense"
                       as={TextField}
                     />
                   </Grid>
                   <Grid item md={12} xs={12}>
                     <Field
-                      placeholder="Code"
-                      name="code"
-                      type="input"
-                      variant="outlined"
-                      label="Code"
-                      margin="dense"
-                      as={TextField}
+                      name="journeys"
+                      value={values.journeys}
+                      multiple={false}
+                      component={DropzoneField}
+                      accept={"application/x-yaml"}
+                      onChange={(file) => {
+                        if (file) {
+                          setFieldValue("journeys", file[0].name);
+                          setJourney(file[0]);
+                        }
+                      }}
                     />
                   </Grid>
                 </Grid>

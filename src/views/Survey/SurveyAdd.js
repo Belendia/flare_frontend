@@ -107,6 +107,7 @@ const SurveyAdd = (props) => {
 
                   <Grid item md={12} xs={12}>
                     <Field
+                      key="journeys"
                       name="journeys"
                       value={values.journeys}
                       multiple={false}

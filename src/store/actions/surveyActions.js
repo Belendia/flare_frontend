@@ -115,8 +115,8 @@ export const fetchSurvey = (surveyId, history) => {
       .get(`/surveys/${surveyId}`)
       .then((res) => {
         const survey = {
-          code: res.data.code,
-          name: res.data.name,
+          title: res.data.title,
+          journeys: res.data.journeys,
         };
 
         dispatch(fetchSurveySuccess(survey));
