@@ -36,9 +36,9 @@ const SurveyRow = (props) => {
     props.openDialog(id);
   };
 
-  const handleEdit = () => {
-    history.push(`/survey/edit/${survey.id}`);
-  };
+  // const handleEdit = () => {
+  //   history.push(`/survey/edit/${survey.id}`);
+  // };
 
   return (
     <TableRow className={classes.tableRow} hover key={survey.id} size="small">
@@ -61,13 +61,6 @@ const SurveyRow = (props) => {
           open={Boolean(anchorEl)}
           onClose={handleClose}
         >
-          <MenuItem onClick={handleEdit}>
-            <ListItemIcon className={classes.menu}>
-              <EditIcon fontSize="small" />
-            </ListItemIcon>
-            Edit
-          </MenuItem>
-
           <MenuItem onClick={() => handleDelete(survey.id)}>
             <ListItemIcon className={classes.menu}>
               <DeleteIcon fontSize="small" />

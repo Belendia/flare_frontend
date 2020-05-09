@@ -133,26 +133,26 @@ export const fetchSurvey = (surveyId, history) => {
   };
 };
 
-export const editSurvey = (survey, surveyId, history, errorCallback) => {
-  return (dispatch) => {
-    axios
-      .put(`/surveys/${surveyId}/`, survey)
-      .then((res) => {
-        dispatch(saveDelSurveySuccess());
-        history.push("/survey");
-      })
-      .catch((err) => {
-        console.log(err.response);
-        if (err.response === undefined) {
-          dispatch(updateSurveyFail(err.message));
-          errorCallback(err.message);
-        } else {
-          const errors = mapResponseErrors(err.response.data);
-          errorCallback(errors);
-        }
-      });
-  };
-};
+// export const editSurvey = (survey, surveyId, history, errorCallback) => {
+//   return (dispatch) => {
+//     axios
+//       .put(`/surveys/${surveyId}/`, survey)
+//       .then((res) => {
+//         dispatch(saveDelSurveySuccess());
+//         history.push("/survey");
+//       })
+//       .catch((err) => {
+//         console.log(err.response);
+//         if (err.response === undefined) {
+//           dispatch(updateSurveyFail(err.message));
+//           errorCallback(err.message);
+//         } else {
+//           const errors = mapResponseErrors(err.response.data);
+//           errorCallback(errors);
+//         }
+//       });
+//   };
+// };
 
 export const removeSurveyFromList = (surveyId) => {
   return {
