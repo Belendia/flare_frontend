@@ -76,8 +76,6 @@ const SurveyAdd = (props) => {
           formData.append("journeys", journey, journey.name);
           formData.append("title", data.title);
           formData.append("published", data.published);
-          formData.append("endpoint", "");
-          formData.append("survey_id", randomString);
 
           dispatch(
             addSurvey(formData, history, (err) => {

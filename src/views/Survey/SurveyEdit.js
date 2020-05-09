@@ -95,8 +95,6 @@ const SurveyEdit = (props) => {
 
           formData.append("title", data.title);
           formData.append("published", data.published);
-          formData.append("endpoint", "");
-          formData.append("survey_id", randomString(32));
 
           dispatch(
             editSurvey(formData, props.match.params.id, history, (err) => {

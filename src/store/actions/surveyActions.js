@@ -88,10 +88,6 @@ export const addSurvey = (survey, history, errorCallback) => {
           errorCallback(err.message);
         } else {
           const errors = mapResponseErrors(err.response.data);
-          if (errors.hasOwnProperty("survey_id")) {
-            // if the survey_id is not unique, show the error under journeys dropzone control
-            errors.journeys = errors.survey_id;
-          }
           errorCallback(errors);
         }
       });
@@ -152,10 +148,6 @@ export const editSurvey = (survey, surveyId, history, errorCallback) => {
           errorCallback(err.message);
         } else {
           const errors = mapResponseErrors(err.response.data);
-          if (errors.hasOwnProperty("survey_id")) {
-            // if the survey_id is not unique, show the error under journeys dropzone control
-            errors.journeys = errors.survey_id;
-          }
           errorCallback(errors);
         }
       });
