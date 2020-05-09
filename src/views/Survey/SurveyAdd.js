@@ -15,11 +15,12 @@ import {
   Snackbar,
 } from "@material-ui/core";
 import Alert from "@material-ui/lab/Alert";
-import { TextField, DropzoneField } from "../../components";
+import { TextField, CheckboxField, DropzoneField } from "../../components";
 import { Formik, Field, Form } from "formik";
 import * as yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
 import { addSurvey } from "../../store/actions";
+import randomString from "../../helpers/randomString";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -33,6 +34,7 @@ const useStyles = makeStyles((theme) => ({
 
 const validationSchema = yup.object({
   title: yup.string().required(),
+  published: yup.boolean(),
   journeys: yup.string().required(),
 });
 
@@ -62,6 +64,7 @@ const SurveyAdd = (props) => {
         validateOnChange={true}
         initialValues={{
           title: "",
+          published: false,
           journeys: "",
         }}
         validationSchema={validationSchema}
@@ -72,6 +75,9 @@ const SurveyAdd = (props) => {
 
           formData.append("journeys", journey, journey.name);
           formData.append("title", data.title);
+          formData.append("published", data.published);
+          formData.append("endpoint", "");
+          formData.append("survey_id", randomString(32));
 
           dispatch(
             addSurvey(formData, history, (err) => {
@@ -104,7 +110,16 @@ const SurveyAdd = (props) => {
                       as={TextField}
                     />
                   </Grid>
-
+                  <Grid item md={12} xs={12}>
+                    <Field
+                      name="published"
+                      type="input"
+                      variant="outlined"
+                      label="Published"
+                      margin="dense"
+                      as={CheckboxField}
+                    />
+                  </Grid>
                   <Grid item md={12} xs={12}>
                     <Field
                       key="journeys"

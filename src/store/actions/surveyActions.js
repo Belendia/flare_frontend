@@ -116,6 +116,7 @@ export const fetchSurvey = (surveyId, history) => {
       .then((res) => {
         const survey = {
           title: res.data.title,
+          published: res.data.published,
           journeys: res.data.journeys,
         };
 
@@ -141,6 +142,7 @@ export const editSurvey = (survey, surveyId, history, errorCallback) => {
         history.push("/survey");
       })
       .catch((err) => {
+        console.log(err.response);
         if (err.response === undefined) {
           dispatch(updateSurveyFail(err.message));
           errorCallback(err.message);
