@@ -6,3 +6,4 @@ export { default as SelectField } from "./SelectField";
 export { default as AutocompleteField } from "./AutocompleteField";
 export { default as MaskedInputField } from "./MaskedInputField";
 export { default as DropzoneField } from "./DropzoneField";
+export { default as CheckboxField } from "./CheckboxField";
