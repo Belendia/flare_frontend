@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import clsx from "clsx";
 import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/styles";
@@ -13,13 +13,14 @@ import {
   Button,
   CircularProgress,
   Snackbar,
+  Box,
 } from "@material-ui/core";
 import Alert from "@material-ui/lab/Alert";
 import { TextField, CheckboxField, DropzoneField } from "../../components";
 import { Formik, Field, Form } from "formik";
 import * as yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
-import { addSurvey } from "../../store/actions";
+import { fetchSurvey, editSurvey } from "../../store/actions";
 import randomString from "../../helpers/randomString";
 
 const useStyles = makeStyles((theme) => ({
@@ -38,17 +39,25 @@ const validationSchema = yup.object({
   journeys: yup.string().required(),
 });
 
-const SurveyAdd = (props) => {
+const SurveyEdit = (props) => {
   const { className, staticContext, ...rest } = props;
 
   const classes = useStyles();
-  const history = useHistory();
+  let history = useHistory();
   const dispatch = useDispatch();
-  const { error } = useSelector((state) => ({
-    error: state.survey.error,
-  }));
   const [showError, setShowError] = useState(false);
   const [journey, setJourney] = useState(null);
+
+  //redux
+  const { survey, loadingSurvey, error } = useSelector((state) => ({
+    survey: state.survey.survey,
+    loadingSurveys: state.survey.loadingSurveys,
+    error: state.survey.error,
+  }));
+
+  useEffect(() => {
+    dispatch(fetchSurvey(props.match.params.id, history));
+  }, [dispatch]);
 
   const handleCancel = () => {
     history.push("/survey");
@@ -58,35 +67,44 @@ const SurveyAdd = (props) => {
     setShowError(false);
   };
 
-  return (
+  return loadingSurvey || survey === null ? (
+    <Box
+      display="flex"
+      justifyContent="center"
+      m={1}
+      p={1}
+      bgcolor="background.paper"
+      className={classes.message}
+    >
+      <CircularProgress size={100} thickness={1.5} />
+    </Box>
+  ) : (
     <React.Fragment>
       <Formik
         validateOnChange={true}
-        initialValues={{
-          title: "",
-          published: false,
-          journeys: "",
-        }}
+        initialValues={survey}
+        enableReinitialize={true}
         validationSchema={validationSchema}
         onSubmit={(data, { setSubmitting, setErrors }) => {
           setSubmitting(true);
 
           let formData = new FormData();
+          if (journey) {
+            formData.append("journeys", journey, journey.name);
+          }
 
-          formData.append("journeys", journey, journey.name);
           formData.append("title", data.title);
           formData.append("published", data.published);
           formData.append("endpoint", "");
-          formData.append("survey_id", randomString);
+          formData.append("survey_id", randomString(32));
 
           dispatch(
-            addSurvey(formData, history, (err) => {
+            editSurvey(formData, props.match.params.id, history, (err) => {
               if (typeof err === "string") {
                 setShowError(true);
               } else {
                 setErrors(err);
               }
-
               setSubmitting(false);
             })
           );
@@ -95,7 +113,7 @@ const SurveyAdd = (props) => {
         {({ values, errors, isSubmitting, setFieldValue }) => (
           <Card {...rest} className={clsx(classes.root, className)}>
             <Form autoComplete="off">
-              <CardHeader subheader="Add a survey" title="Survey" />
+              <CardHeader subheader="Edit a survey" title="Survey" />
               <Divider />
               <CardContent>
                 <Grid container spacing={3}>
@@ -122,7 +140,6 @@ const SurveyAdd = (props) => {
                   </Grid>
                   <Grid item md={12} xs={12}>
                     <Field
-                      key="journeys"
                       name="journeys"
                       value={values.journeys}
                       multiple={false}
@@ -180,8 +197,8 @@ const SurveyAdd = (props) => {
   );
 };
 
-SurveyAdd.propTypes = {
+SurveyEdit.propTypes = {
   className: PropTypes.string,
 };
 
-export default SurveyAdd;
+export default SurveyEdit;

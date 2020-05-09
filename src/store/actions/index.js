@@ -33,5 +33,6 @@ export {
   addSurvey,
   resetSaveSurveySuccess,
   fetchSurvey,
+  editSurvey,
   deleteSurvey,
 } from "./surveyActions";
