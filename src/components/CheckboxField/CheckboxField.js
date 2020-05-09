@@ -6,7 +6,6 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 export const CustomCheckboxField = ({ label, disabled, ...props }) => {
   const [field, meta] = useField(props);
   const errorText = meta.error && meta.touched ? meta.error : "";
-  console.log(field);
   return (
     <FormControlLabel
       control={
