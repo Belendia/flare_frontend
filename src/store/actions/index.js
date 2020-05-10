@@ -36,3 +36,9 @@ export {
   editSurvey,
   deleteSurvey,
 } from "./surveyActions";
+
+export {
+  fetchResults,
+  resetDeleteResultSuccess,
+  deleteResult,
+} from "./resultActions";

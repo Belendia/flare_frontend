@@ -13,6 +13,7 @@ import subscriberReducer from "./store/reducers/subscriberReducer";
 import messageReducer from "./store/reducers/messageReducer";
 import channelReducer from "./store/reducers/channelReducer";
 import surveyReducer from "./store/reducers/surveyReducer";
+import resultReducer from "./store/reducers/resultReducer";
 
 const composeEnhancers =
   (process.env.NODE_ENV === "development"
@@ -26,6 +27,7 @@ const rootReducer = combineReducers({
   message: messageReducer,
   channel: channelReducer,
   survey: surveyReducer,
+  result: resultReducer,
 });
 
 const store = createStore(

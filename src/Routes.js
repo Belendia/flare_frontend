@@ -19,6 +19,7 @@ import {
   SurveyList as SurveyListView,
   SurveyAdd as SurveyAddView,
   SurveyEdit as SurveyEditView,
+  ResultList as ResultListView,
 } from "./views";
 
 const Routes = () => {
@@ -97,6 +98,13 @@ const Routes = () => {
         exact
         layout={MainLayout}
         path="/survey/edit/:id"
+      />
+
+      <SecuredRouteWithLayout
+        component={ResultListView}
+        exact
+        layout={MainLayout}
+        path="/result/:id"
       />
 
       <RouteWithLayout

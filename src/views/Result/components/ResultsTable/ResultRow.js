@@ -1,15 +1,13 @@
 import React, { useState } from "react";
 import { TableCell, TableRow, Typography, IconButton } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
-import { useHistory } from "react-router-dom";
+// import { useHistory } from "react-router-dom";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import PropTypes from "prop-types";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
-import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
-import StorageIcon from "@material-ui/icons/Storage";
 
 const useStyles = makeStyles((theme) => ({
   root: {},
@@ -18,11 +16,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const SurveyRow = (props) => {
-  const { survey } = props;
+const ResultRow = (props) => {
+  const { result } = props;
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = useState(null);
-  let history = useHistory();
+  // let history = useHistory();
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -37,19 +35,15 @@ const SurveyRow = (props) => {
     props.openDialog(id);
   };
 
-  const handleEdit = (id) => {
-    history.push(`/survey/edit/${id}`);
-  };
-
-  const handleListData = (id) => {
-    history.push(`/result/${id}`);
-  };
-
   return (
-    <TableRow className={classes.tableRow} hover key={survey.id} size="small">
+    <TableRow className={classes.tableRow} hover key={result.id} size="small">
       <TableCell>
-        <Typography variant="body1">{survey.title}</Typography>
+        <Typography variant="body1">{result.phone_number}</Typography>
       </TableCell>
+      <TableCell>{result.session_id}</TableCell>
+      <TableCell>{result.completed ? "Yes" : "No"}</TableCell>
+      <TableCell>{result.posted ? "Yes" : "No"}</TableCell>
+      <TableCell>{result.rejected ? "Yes" : "No"}</TableCell>
       <TableCell>
         <IconButton
           aria-label="more"
@@ -66,20 +60,7 @@ const SurveyRow = (props) => {
           open={Boolean(anchorEl)}
           onClose={handleClose}
         >
-          <MenuItem onClick={() => handleListData(survey.id)}>
-            <ListItemIcon className={classes.menu}>
-              <StorageIcon fontSize="small" />
-            </ListItemIcon>
-            Data
-          </MenuItem>
-          <MenuItem onClick={() => handleEdit(survey.id)}>
-            <ListItemIcon className={classes.menu}>
-              <EditIcon fontSize="small" />
-            </ListItemIcon>
-            Edit
-          </MenuItem>
-
-          <MenuItem onClick={() => handleDelete(survey.id)}>
+          <MenuItem onClick={() => handleDelete(result.id)}>
             <ListItemIcon className={classes.menu}>
               <DeleteIcon fontSize="small" />
             </ListItemIcon>
@@ -91,9 +72,9 @@ const SurveyRow = (props) => {
   );
 };
 
-SurveyRow.propTypes = {
-  survey: PropTypes.object.isRequired,
+ResultRow.propTypes = {
+  result: PropTypes.object.isRequired,
   openDialog: PropTypes.func.isRequired,
 };
 
-export default SurveyRow;
+export default ResultRow;
