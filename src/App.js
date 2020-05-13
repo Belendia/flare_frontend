@@ -41,7 +41,7 @@ function App() {
   }, [dispatch]);
 
   useEffect(() => {
-    ws.current = new WebSocket(`ws://${Constants.SERVER_LOCATION}/ws/message/`);
+    ws.current = new WebSocket("ws://" + hostName() + "/ws/message/");
     ws.current.onopen = () => console.log("ws opened");
     ws.current.onclose = () => console.log("ws closed");
 
