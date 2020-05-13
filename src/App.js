@@ -16,7 +16,7 @@ import {
   authCheckState as onTryAutoSignIn,
   changeMessageStatus,
 } from "./store/actions";
-import * as Constants from "./helpers/constants";
+import hostName from "./helpers/hostName";
 
 Chart.helpers.extend(Chart.elements.Rectangle.prototype, {
   draw: chartjs.draw,
