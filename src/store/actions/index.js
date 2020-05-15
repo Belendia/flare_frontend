@@ -42,3 +42,5 @@ export {
   resetDeleteResultSuccess,
   deleteResult,
 } from "./resultActions";
+
+export { fetchDashboardData } from "./dashboardActions";
