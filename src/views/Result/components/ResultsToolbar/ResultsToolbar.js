@@ -65,9 +65,6 @@ const ResultsToolbar = (props) => {
           </IconButton>
         </div>
         <span className={classes.spacer} />
-        <Button color="primary" variant="contained" disabled={disableButtons}>
-          Export
-        </Button>
       </div>
       <div className={classes.row}>
         <SearchInput
