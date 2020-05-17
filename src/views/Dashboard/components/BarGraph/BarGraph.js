@@ -4,7 +4,6 @@ import PropTypes from "prop-types";
 import { Bar } from "react-chartjs-2";
 import { makeStyles } from "@material-ui/styles";
 import { Card, CardHeader, CardContent, Divider } from "@material-ui/core";
-import CircularProgress from "@material-ui/core/CircularProgress";
 import palette from "../../../../theme/palette";
 
 import { options } from "../../../../helpers/chart";
@@ -25,7 +24,7 @@ const BarGraph = (props) => {
 
   const classes = useStyles();
 
-  let content = <CircularProgress size={100} thickness={1.5} />;
+  let content = null;
   if (props.data) {
     let d = props.data.datasets[0];
     d = {
@@ -45,7 +44,7 @@ const BarGraph = (props) => {
       <CardHeader title={props.title} />
       <Divider />
       <CardContent>
-        <div className={classes.chartContainer}>{content}</div>
+        <div className={classes.chartContainer}>{props.data && content}</div>
       </CardContent>
     </Card>
   );

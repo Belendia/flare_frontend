@@ -10,7 +10,6 @@ import {
   Divider,
   Typography,
 } from "@material-ui/core";
-import CircularProgress from "@material-ui/core/CircularProgress";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -75,7 +74,7 @@ const Pie = (props) => {
     },
   ];
 
-  let content = <CircularProgress size={100} thickness={1.5} />;
+  let content = null;
 
   if (props.data) {
     let d = props.data.datasets[0];
@@ -115,7 +114,7 @@ const Pie = (props) => {
     <Card {...rest} className={clsx(classes.root, className)}>
       <CardHeader title={props.title} />
       <Divider />
-      <CardContent>{content}</CardContent>
+      <CardContent>{props.data && content}</CardContent>
     </Card>
   );
 };

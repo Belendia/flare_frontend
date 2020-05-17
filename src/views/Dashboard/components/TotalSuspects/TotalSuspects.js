@@ -65,7 +65,7 @@ const TotalSuspects = (props) => {
 
 TotalSuspects.propTypes = {
   className: PropTypes.string,
-  data: PropTypes.number,
+  data: PropTypes.string,
 };
 
 export default TotalSuspects;

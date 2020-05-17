@@ -71,16 +71,18 @@ const Dashboard = () => {
     content = (
       <Grid container spacing={4}>
         <Grid item lg={3} sm={6} xl={3} xs={12}>
-          <Messages data={data.total_messages} />
+          <Messages data={data.total_messages ? data.total_messages : "-"} />
         </Grid>
         <Grid item lg={3} sm={6} xl={3} xs={12}>
-          <Subscribers data={data.total_subscribers} />
+          <Subscribers
+            data={data.total_subscribers ? data.total_subscribers : "-"}
+          />
         </Grid>
         <Grid item lg={3} sm={6} xl={3} xs={12}>
-          <Surveys data={data.total_surveys} />
+          <Surveys data={data.total_surveys ? data.total_surveys : "-"} />
         </Grid>
         <Grid item lg={3} sm={6} xl={3} xs={12}>
-          <Suspects data={data.total_suspects} />
+          <Suspects data={data.total_suspects ? data.total_suspects : "-"} />
         </Grid>
         <Grid item lg={8} md={12} xl={9} xs={12}>
           <BarGraph title="Suspects by age" data={data.suspects_by_age} />

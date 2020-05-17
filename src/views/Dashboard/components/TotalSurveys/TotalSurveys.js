@@ -64,7 +64,7 @@ const TotalSurveys = (props) => {
 
 TotalSurveys.propTypes = {
   className: PropTypes.string,
-  data: PropTypes.number,
+  data: PropTypes.string,
 };
 
 export default TotalSurveys;
