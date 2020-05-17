@@ -29,7 +29,6 @@ export const fetchDashboardData = () => {
     axios
       .get("/reports/")
       .then((res) => {
-        const dashboardData = [];
         let data = res.data;
 
         if (data.hasOwnProperty("suspects_by_region")) {
