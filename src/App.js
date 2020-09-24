@@ -12,11 +12,8 @@ import "./assets/scss/index.scss";
 import validators from "./common/validators";
 import Routes from "./Routes";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  authCheckState as onTryAutoSignIn,
-  changeMessageStatus,
-} from "./store/actions";
-import hostName from "./helpers/hostName";
+import { authCheckState as onTryAutoSignIn } from "./store/actions";
+// import hostName from "./helpers/hostName";
 
 Chart.helpers.extend(Chart.elements.Rectangle.prototype, {
   draw: chartjs.draw,
@@ -28,7 +25,7 @@ validate.validators = {
 };
 
 function App() {
-  const ws = useRef(null);
+  // const ws = useRef(null);
   const dispatch = useDispatch();
   const { timer } = useSelector((state) => ({
     timer: state.security.timer,
@@ -40,20 +37,20 @@ function App() {
     return () => clearTimeout(timer);
   }, [dispatch]);
 
-  useEffect(() => {
-    ws.current = new WebSocket("ws://" + hostName() + "/ws/message/");
-    ws.current.onopen = () => console.log("ws opened");
-    ws.current.onclose = () => console.log("ws closed");
+  // useEffect(() => {
+  //   ws.current = new WebSocket("ws://" + hostName() + "/ws/message/");
+  //   ws.current.onopen = () => console.log("ws opened");
+  //   ws.current.onclose = () => console.log("ws closed");
 
-    ws.current.onmessage = (e) => {
-      const message = JSON.parse(e.data);
-      dispatch(changeMessageStatus(message));
-    };
+  //   ws.current.onmessage = (e) => {
+  //     const message = JSON.parse(e.data);
+  //     dispatch(changeMessageStatus(message));
+  //   };
 
-    return () => {
-      ws.current.close();
-    };
-  }, [dispatch]);
+  //   return () => {
+  //     ws.current.close();
+  //   };
+  // }, [dispatch]);
 
   return (
     <ThemeProvider theme={theme}>
