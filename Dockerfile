@@ -1,5 +1,7 @@
 FROM node:10-alpine as builder
 #RUN npm install -g yarn
+RUN apk add --update python make g++\
+    && rm -rf /var/cache/apk/*
 WORKDIR /app
 COPY ./ussd_fe/package.json ./ussd_fe/yarn.lock ./
 RUN yarn
