@@ -1,9 +1,10 @@
 FROM node:10-alpine as builder
+RUN npm install -g yarn
 WORKDIR /app
-COPY ./ussd_fe/package.json ./ussd_fe/package-lock.json ./
-RUN npm install
+COPY ./ussd_fe/package.json ./ussd_fe/yarn.lock ./
+RUN yarn
 COPY ./ussd_fe/. .
-RUN npm run build
+RUN yarn run build
 
 
 FROM nginx:latest
